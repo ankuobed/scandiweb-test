@@ -1,2 +1,2 @@
-export { default as ProductListPage } from './pages/ProductListPage'
-export { default as ProductPage } from './pages/ProductPage'
+export { default as ProductList } from './pages/ProductList'
+export { default as Product } from './pages/Product'
