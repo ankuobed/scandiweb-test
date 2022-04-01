@@ -11,15 +11,15 @@ interface State {
 }
 
 export default class ProductsListPage extends Component<{}, State> {
-  static contextType = AppolloClientContext;
-  client = this.context
-
   state = {
     loading: false,
     error: '',
     categories: []
   }
- 
+  
+  static contextType = AppolloClientContext;
+  client = this.context
+  
   componentDidMount() {
     (async () => {
       this.setState({ loading: true })

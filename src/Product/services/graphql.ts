@@ -1,5 +1,5 @@
 import { ApolloClient, gql, NormalizedCacheObject } from '@apollo/client';
-import { Category } from '../../_shared';
+import { Category, Product } from '../../_shared';
 
 export const getCategories = async (client: ApolloClient<NormalizedCacheObject>) => {
     const { data, error } = await client.query<{ categories: Category[] }>({
@@ -8,6 +8,7 @@ export const getCategories = async (client: ApolloClient<NormalizedCacheObject>)
           categories {
             name,
             products {
+              id,
               name,
               prices {
                 currency {
@@ -24,4 +25,36 @@ export const getCategories = async (client: ApolloClient<NormalizedCacheObject>)
     })
 
     return { categories: data.categories, error: error?.message }
+}
+
+export const getProduct = async (client: ApolloClient<NormalizedCacheObject>, id: string) => {
+  const { data, error } = await client.query<{ product: Product }>({
+    query: gql`
+      query GetProduct {
+        product(id: "${id}") {
+          id,
+          name,
+          gallery,
+          description,
+          prices {
+            currency {
+              label,
+              symbol
+            },
+            amount
+          },
+          brand,
+          attributes {
+            name,
+            items {
+              displayValue,
+              value,
+            }
+          }
+        }
+      }
+    `
+  })
+
+  return { ...data, error: error?.message }
 }
