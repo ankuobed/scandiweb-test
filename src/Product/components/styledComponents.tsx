@@ -106,3 +106,19 @@ export const Brand = styled.p({
 export const Name = styled.p({
     fontSize: 30,
 })
+
+export const MainImage = styled.img({
+    width: 500,
+    maxHeight: 500
+})
+
+export const SubImages = styled.div({
+    marginRight: 30
+})
+
+export const SubImage = styled.img({
+    display: 'block',
+    marginBottom: 30,
+    width: 70,
+    maxHeight: 100
+})

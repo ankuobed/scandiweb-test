@@ -9,7 +9,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-export const AppolloClientContext = createContext<typeof client | null>(null);
+export const AppolloClientContext = createContext(client);
 
 export class AppolloClientProvider extends Component {
   render() {

@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Flex, Product } from '../../_shared'
+import { Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared'
 import { 
     AddToCartButtonRounded, 
     ProductItemWrapper, 
@@ -13,7 +13,11 @@ interface Props {
 }
 
 export default class ProductItem extends Component<Props> {
-    product = this.props.product;
+    product = this.props.product
+    
+    static contextType = StateContext
+    currency = this.context.state.currency
+    price = getPrice(this.product.prices, this.currency)
 
     render() {
         return (
@@ -23,6 +27,7 @@ export default class ProductItem extends Component<Props> {
                 alt={this.product.name} 
                 style={{ width: 330, height: 335, }}
             />
+            
             <Flex justify="flex-end" style={{ width: '100%' }}>
                 <AddToCartButtonRounded>
                     <img
@@ -32,9 +37,10 @@ export default class ProductItem extends Component<Props> {
                     />
                 </AddToCartButtonRounded>
             </Flex>
+
             <div style={{ textAlign: 'left', width: '100%' }}>
                 <ProductName>{this.product.name}</ProductName>
-                <ProductPrice>{`${this.product.prices[0].currency.symbol}${this.product.prices[0].amount}`}</ProductPrice>
+                <ProductPrice>{formatPrice(this.price)}</ProductPrice>
             </div>
         </ProductItemWrapper>
         )

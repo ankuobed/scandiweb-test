@@ -1,11 +1,35 @@
 import { Component } from 'react'
-import { Flex } from '../_shared'
+import { AppolloClientContext, Currency, Flex } from '../_shared'
 import { NavItem } from './components/styledComponents'
 import logo from '../assets/images/logo.svg'
 import chevronDown from '../assets/images/chevron-down.svg'
 import { CartButton } from '../Cart'
+import { getCurrencies } from './services/graphql'
 
-export default class Header extends Component {
+interface State {
+  currencies: Currency[];
+}
+
+export default class Header extends Component<{}, State> {
+  state = {
+    currencies: [
+      {
+        label: "USD",
+        symbol: "$"
+      }
+    ]
+  }
+
+  static contextType = AppolloClientContext;
+  client = this.context
+
+  componentDidMount() {
+    (async () => {
+      const result = await getCurrencies(this.client);
+      this.setState({ ...result })
+    })();
+  }
+
   render() {
     return (
       <Flex justify="space-between" style={{ padding: 10 }}>

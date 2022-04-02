@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import { AppolloClientContext, Flex, Product } from '../../_shared';
-import { AddToCartButton, AttributeItem, Label, Description, Price, Brand, Name, AttributeColor } from '../components/styledComponents';
+import { AppolloClientContext, Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared';
+import { AddToCartButton, AttributeItem, Label, Description, Price, Brand, Name, AttributeColor, MainImage, SubImages, SubImage } from '../components/styledComponents';
 import { getProduct } from '../services/graphql';
 
 interface State {
@@ -34,13 +34,27 @@ export default class ProductPage extends Component<{}, State> {
         {
           this.state?.product && 
           <Flex style={{ paddingTop: 50 }} justify="space-between" align="flex-start">
-            <img
-              alt={this.state?.product?.name}
-              src={this.state?.product?.gallery[0]}
-              style={{ width: 500, maxHeight: 500 }} 
-            />
+            <Flex align="flex-start">
+              {
+                this.state.product.gallery.length > 1 &&
+                <SubImages>
+                  {
+                    this.state.product.gallery.slice(1).map(image => (
+                      <SubImage
+                        alt={this.state?.product?.name}
+                        src={image}
+                      />
+                    ))
+                  }
+                </SubImages>
+              }
+              <MainImage
+                alt={this.state?.product?.name}
+                src={this.state?.product?.gallery[0]}
+              />
+            </Flex>
             
-            <div style={{ width: '40%'}}>
+            <div style={{ width: '40%' }}>
               <Brand>{this.state?.product?.brand}</Brand>
               <Name>{this.state?.product?.name}</Name>
 
@@ -60,7 +74,16 @@ export default class ProductPage extends Component<{}, State> {
               }
 
               <Label>PRICE:</Label>
-              <Price>{this.state?.product?.prices[0].currency.symbol}{this.state?.product?.prices[0].amount}</Price>
+              <StateContext.Consumer>
+                {
+                  ({ state: { currency }}) => {
+                    const price = getPrice(this.state?.product?.prices, currency)
+                    return (
+                      <Price>{formatPrice(price)}</Price>
+                    )
+                  }
+                }
+              </StateContext.Consumer>
 
               <AddToCartButton>
                 ADD TO CART

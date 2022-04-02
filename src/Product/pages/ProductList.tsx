@@ -17,13 +17,13 @@ export default class ProductsListPage extends Component<{}, State> {
     categories: []
   }
   
-  static contextType = AppolloClientContext;
+  static contextType = AppolloClientContext
   client = this.context
   
   componentDidMount() {
     (async () => {
       this.setState({ loading: true })
-      const result = await getCategories(this.client);
+      const result = await getCategories(this.client)
       this.setState({ loading: false, ...result })
     })();
   }
