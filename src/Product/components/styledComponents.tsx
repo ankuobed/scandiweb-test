@@ -100,6 +100,7 @@ export const Price = styled.p({
 export const Brand = styled.p({
     fontWeight: 'bold',
     fontSize: 30,
+    marginTop: 0,
     marginBottom: -15
 })
 

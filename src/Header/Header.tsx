@@ -1,36 +1,36 @@
 import { Component } from 'react'
-import { AppolloClientContext, Currency, Flex } from '../_shared'
+import { Currency, Flex, StateContext } from '../_shared'
 import { NavItem } from './components/styledComponents'
 import logo from '../assets/images/logo.svg'
-import chevronDown from '../assets/images/chevron-down.svg'
 import { CartButton } from '../Cart'
 import { getCurrencies } from './services/graphql'
+import CurrencySwitcher from './components/CurrencySwitcher'
+import CurrencySwitcherButton from './components/CurrencySwitcherButton'
 
 interface State {
   currencies: Currency[];
+  currencySwitcherOpen: boolean;
 }
 
 export default class Header extends Component<{}, State> {
   state = {
-    currencies: [
-      {
-        label: "USD",
-        symbol: "$"
-      }
-    ]
+    currencies: [],
+    currencySwitcherOpen: false
   }
 
-  static contextType = AppolloClientContext;
-  client = this.context
+  static contextType = StateContext
+  client = this.context.apolloClient
 
   componentDidMount() {
     (async () => {
       const result = await getCurrencies(this.client);
-      this.setState({ ...result })
+      this.setState(prevState => ({ ...prevState, ...result }))
     })();
   }
 
   render() {
+    const currency = this.context.state.currency;
+
     return (
       <Flex justify="space-between" style={{ padding: 10 }}>
         <Flex>
@@ -42,8 +42,19 @@ export default class Header extends Component<{}, State> {
         <img src={logo} alt="Logo" style={{ width: 32, height: 30 }} />
 
         <Flex style={{ width: 75 }} justify="space-between">
-          <Flex><span style={{ fontSize: 19, marginRight: 5 }}>$</span> <img src={chevronDown} alt="Drop down" style={{ width: 10 }} /></Flex>
-          <CartButton count={0} />
+          <>
+            <CurrencySwitcherButton 
+              onClick={() => this.setState({ currencySwitcherOpen: true })}
+              currency={currency}
+              open={this.state.currencySwitcherOpen}
+            />
+            <CurrencySwitcher
+              open={this.state.currencySwitcherOpen}
+              currencies={this.state.currencies}
+              onClose={() => this.setState({ currencySwitcherOpen: false })}
+            />
+          </>
+          <CartButton count={2} />
         </Flex>
       </Flex>
     )

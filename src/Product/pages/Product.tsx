@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { AppolloClientContext, Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared';
+import { Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared';
 import { AddToCartButton, AttributeItem, Label, Description, Price, Brand, Name, AttributeColor, MainImage, SubImages, SubImage } from '../components/styledComponents';
 import { getProduct } from '../services/graphql';
 
@@ -16,8 +16,9 @@ export default class ProductPage extends Component<{}, State> {
     product: null as never as Product
   }
 
-  static contextType = AppolloClientContext;
-  client = this.context
+  static contextType = StateContext;
+
+  client = this.context.apolloClient
   id = window.location.href.split('/').pop() as string
 
   componentDidMount() {
@@ -29,6 +30,8 @@ export default class ProductPage extends Component<{}, State> {
   }
 
   render() {
+    const price = getPrice(this.state?.product?.prices, this.context.state.currency)
+
     return (
       <div>
         {
@@ -74,22 +77,17 @@ export default class ProductPage extends Component<{}, State> {
               }
 
               <Label>PRICE:</Label>
-              <StateContext.Consumer>
-                {
-                  ({ state: { currency }}) => {
-                    const price = getPrice(this.state?.product?.prices, currency)
-                    return (
-                      <Price>{formatPrice(price)}</Price>
-                    )
-                  }
-                }
-              </StateContext.Consumer>
-
+              <Price>{formatPrice(price)}</Price>
+  
               <AddToCartButton>
                 ADD TO CART
               </AddToCartButton>
 
-              <Description dangerouslySetInnerHTML={{ __html: this.state?.product?.description }} />
+              <Description 
+                dangerouslySetInnerHTML={{ 
+                  __html: this.state?.product?.description 
+                }} 
+              />
             </div>
           </Flex>
         }

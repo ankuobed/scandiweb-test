@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { AppolloClientContext, Category } from '../../_shared'
+import { Category, StateContext } from '../../_shared'
 import ProductItem from '../components/ProductItem';
 import { ProductsWrapper } from '../components/styledComponents';
 import { getCategories } from '../services/graphql';
@@ -17,8 +17,8 @@ export default class ProductsListPage extends Component<{}, State> {
     categories: []
   }
   
-  static contextType = AppolloClientContext
-  client = this.context
+  static contextType = StateContext
+  client = this.context.apolloClient
   
   componentDidMount() {
     (async () => {

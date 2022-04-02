@@ -8,13 +8,12 @@ import './App.css'
 import { ProductList, Product } from './Product'
 import { Cart } from './Cart'
 import { ThemeProvider } from 'styled-components';
-import { AppolloClientProvider, constants, StateContextProvider } from './_shared'
+import { constants, StateProvider } from './_shared'
 import Header from './Header';
 export default class App extends Component {
   render() {
     return (
-      <AppolloClientProvider>
-        <StateContextProvider>
+        <StateProvider>
           <ThemeProvider theme={constants.theme}>
             <BrowserRouter>
               <Header />
@@ -25,8 +24,7 @@ export default class App extends Component {
               </Routes>
             </BrowserRouter>
           </ThemeProvider>
-        </StateContextProvider>
-      </AppolloClientProvider>
+        </StateProvider>
     )
   }
 }

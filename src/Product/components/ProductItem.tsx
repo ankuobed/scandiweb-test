@@ -16,10 +16,11 @@ export default class ProductItem extends Component<Props> {
     product = this.props.product
     
     static contextType = StateContext
-    currency = this.context.state.currency
-    price = getPrice(this.product.prices, this.currency)
-
+    
     render() {
+       const currency = this.context.state.currency
+       const price = getPrice(this.product.prices, currency)
+
         return (
         <ProductItemWrapper to={`/product/${this.product.id}`}>
             <img
@@ -40,7 +41,7 @@ export default class ProductItem extends Component<Props> {
 
             <div style={{ textAlign: 'left', width: '100%' }}>
                 <ProductName>{this.product.name}</ProductName>
-                <ProductPrice>{formatPrice(this.price)}</ProductPrice>
+                <ProductPrice>{formatPrice(price)}</ProductPrice>
             </div>
         </ProductItemWrapper>
         )
