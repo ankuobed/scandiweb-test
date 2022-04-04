@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export const ProductsWrapper = styled.div({
@@ -8,7 +7,7 @@ export const ProductsWrapper = styled.div({
     rowGap: 70
 })
 
-export const ProductItemWrapper = styled(Link)(({ theme }) => ({
+export const ProductItemWrapper = styled.div(({ theme }) => ({
     ':hover': {
         boxShadow: '1px 1px 30px #e0e0e0',
         'button': {

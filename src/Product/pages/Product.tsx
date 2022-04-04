@@ -29,6 +29,10 @@ export default class ProductPage extends Component<{}, State> {
     })();
   }
 
+  addToCart = () => {
+    this.context.addToCart(this.state.product)
+  }
+
   render() {
     const price = getPrice(this.state?.product?.prices, this.context.state.currency)
 
@@ -79,7 +83,7 @@ export default class ProductPage extends Component<{}, State> {
               <Label>PRICE:</Label>
               <Price>{formatPrice(price)}</Price>
   
-              <AddToCartButton>
+              <AddToCartButton onClick={this.addToCart}>
                 ADD TO CART
               </AddToCartButton>
 

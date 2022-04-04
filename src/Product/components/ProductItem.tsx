@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared'
+import { constants, Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared'
 import { 
     AddToCartButtonRounded, 
     ProductItemWrapper, 
@@ -7,6 +7,7 @@ import {
     ProductPrice 
 } from './styledComponents';
 import cartImage from '../../assets/images/cart-white.svg'
+import { Link } from 'react-router-dom';
 
 interface Props {
     product: Product;
@@ -16,21 +17,27 @@ export default class ProductItem extends Component<Props> {
     product = this.props.product
     
     static contextType = StateContext
+
+    addToCart = () => {
+        this.context.addToCart(this.product)
+    }
     
     render() {
        const currency = this.context.state.currency
        const price = getPrice(this.product.prices, currency)
 
         return (
-        <ProductItemWrapper to={`/product/${this.product.id}`}>
-            <img
-                src={this.product.gallery[0]} 
-                alt={this.product.name} 
-                style={{ width: 330, height: 335, }}
-            />
+        <ProductItemWrapper>
+            <Link to={`/product/${this.product.id}`}>
+                <img
+                    src={this.product.gallery[0]} 
+                    alt={this.product.name} 
+                    style={{ width: 330, height: 335, }}
+                />
+            </Link>
             
             <Flex justify="flex-end" style={{ width: '100%' }}>
-                <AddToCartButtonRounded>
+                <AddToCartButtonRounded onClick={this.addToCart}>
                     <img
                         src={cartImage}
                         alt="add to cart"
@@ -39,10 +46,18 @@ export default class ProductItem extends Component<Props> {
                 </AddToCartButtonRounded>
             </Flex>
 
-            <div style={{ textAlign: 'left', width: '100%' }}>
+            <Link 
+                to={`/product/${this.product.id}`} 
+                style={{ 
+                    textAlign: 'left', 
+                    width: '100%', 
+                    textDecoration: 'none',
+                    color: constants.theme.SECONDARY
+                }}
+            >
                 <ProductName>{this.product.name}</ProductName>
                 <ProductPrice>{formatPrice(price)}</ProductPrice>
-            </div>
+            </Link>
         </ProductItemWrapper>
         )
     }

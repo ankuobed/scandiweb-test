@@ -100,6 +100,11 @@ export interface Category {
     products: Product[];
 }
 
+export interface ICartItem {
+    product: Product;
+    quantity: number;
+    // selectedAttributes: Attribute[];
+}
 
 declare module 'styled-components' {
     export interface DefaultTheme extends Theme {}

@@ -30,6 +30,7 @@ export default class Header extends Component<{}, State> {
 
   render() {
     const currency = this.context.state.currency;
+    const cartCount = this.context.state.cartItems.reduce((acc, cartItem) => acc + cartItem.quantity, 0)
 
     return (
       <Flex justify="space-between" style={{ padding: 10 }}>
@@ -54,7 +55,7 @@ export default class Header extends Component<{}, State> {
               onClose={() => this.setState({ currencySwitcherOpen: false })}
             />
           </>
-          <CartButton count={2} />
+          <CartButton count={cartCount} />
         </Flex>
       </Flex>
     )
