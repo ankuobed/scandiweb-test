@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import { Currency, StateContext } from '../../_shared'
-import { CurrencySwitcherItem, CurrencySwitcherWrapper, Overlay } from './styledComponents'
+import { Currency, Overlay, StateContext } from '../../_shared'
+import { CurrencySwitcherItem, CurrencySwitcherWrapper } from './styledComponents'
 
 interface Props {
     currencies: Currency[];
@@ -18,11 +18,15 @@ export default class CurrencySwitcher extends Component<Props> {
 
     render() {
         return (
-        <Overlay visible={this.props.open} variant="transparent" onClick={this.props.onClose}>
+        <Overlay 
+            visible={this.props.open} 
+            variant="transparent" 
+            onClick={this.props.onClose}
+        >
             <CurrencySwitcherWrapper>
                 {
                     this.props.currencies.map(currency => (
-                        <CurrencySwitcherItem onClick={() => this.setCurrency(currency)}>
+                        <CurrencySwitcherItem key={currency.label} onClick={() => this.setCurrency(currency)}>
                             {formatCurrency(currency)}
                         </CurrencySwitcherItem>
                     ))

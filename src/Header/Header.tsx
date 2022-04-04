@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { Currency, Flex, StateContext } from '../_shared'
 import { NavItem } from './components/styledComponents'
 import logo from '../assets/images/logo.svg'
-import { CartButton } from '../Cart'
+import { CartButton, CartDialog } from '../Cart'
 import { getCurrencies } from './services/graphql'
 import CurrencySwitcher from './components/CurrencySwitcher'
 import CurrencySwitcherButton from './components/CurrencySwitcherButton'
@@ -10,12 +10,14 @@ import CurrencySwitcherButton from './components/CurrencySwitcherButton'
 interface State {
   currencies: Currency[];
   currencySwitcherOpen: boolean;
+  cartDialogOpen: boolean;
 }
 
 export default class Header extends Component<{}, State> {
   state = {
     currencies: [],
-    currencySwitcherOpen: false
+    currencySwitcherOpen: false,
+    cartDialogOpen: false
   }
 
   static contextType = StateContext
@@ -45,7 +47,10 @@ export default class Header extends Component<{}, State> {
         <Flex style={{ width: 75 }} justify="space-between">
           <>
             <CurrencySwitcherButton 
-              onClick={() => this.setState({ currencySwitcherOpen: true })}
+              onClick={() => {
+                this.setState({ currencySwitcherOpen: true })
+                this.setState({  cartDialogOpen: false })
+              }}
               currency={currency}
               open={this.state.currencySwitcherOpen}
             />
@@ -55,7 +60,19 @@ export default class Header extends Component<{}, State> {
               onClose={() => this.setState({ currencySwitcherOpen: false })}
             />
           </>
-          <CartButton count={cartCount} />
+          <>
+            <CartButton 
+              count={cartCount}
+              onClick={() => {
+                this.setState({  cartDialogOpen: true })
+                this.setState({ currencySwitcherOpen: false })
+              }}
+            />
+            <CartDialog 
+              open={this.state.cartDialogOpen}
+              onClose={() => this.setState({  cartDialogOpen: false })}
+            />
+          </>
         </Flex>
       </Flex>
     )

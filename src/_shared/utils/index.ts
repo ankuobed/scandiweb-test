@@ -47,8 +47,20 @@ export const removeFromCartItems = (product: Product, cartItems: ICartItem[]) =>
             } else {
                 return acc
             }
+        } else {
+            return [...acc, cartItem]
         }
         
-        return [...acc, cartItem]
-    }, cartItems)
+    }, [] as ICartItem[])
+}
+
+export const getTotal = (cartItems: ICartItem[], currency: Currency) => {
+    const total = cartItems.reduce((acc, cartItem) => {
+        const { quantity, product: { prices } } = cartItem
+        const price = getPrice(prices, currency)
+
+        return acc + (quantity * price.amount)
+    }, 0)
+
+    return `${currency.symbol}${total.toFixed(2)}`
 }

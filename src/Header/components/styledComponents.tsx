@@ -7,19 +7,6 @@ export const NavItem = styled.a<{ active?: boolean }>(({ theme, active }) => ({
     cursor: 'pointer'
 }))
 
-export const Overlay = styled.div<{ 
-    variant?: 'translucent' | 'transparent'; 
-    visible: boolean;
-}>(({ variant, visible  }) => ({
-    display: visible ? 'block' : 'none',
-    position: 'absolute',
-    top: 65,
-    left: 0,
-    height: '90vh',
-    width: window.screen.width - 18,
-    background: variant === 'transparent' ? 'transparent' : '#00000055',
-}))
-
 export const CurrencySwitcherWrapper = styled.div({
     boxShadow: '1px 1px 25px #e4e4e4',
     background: '#ffffff',

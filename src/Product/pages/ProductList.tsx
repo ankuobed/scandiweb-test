@@ -10,7 +10,7 @@ interface State {
   categories: Category[];
 }
 
-export default class ProductsListPage extends Component<{}, State> {
+export default class ProductsList extends Component<{}, State> {
   state = {
     loading: false,
     error: '',
@@ -34,11 +34,15 @@ export default class ProductsListPage extends Component<{}, State> {
         {
           this.state.categories?.map((category: Category) => {
             return (
-              <div style={{ marginTop: 70, marginBottom: 100 }}>
+              <div key={category.name} style={{ marginTop: 70, marginBottom: 100 }}>
                 <p style={{ fontSize: 42 }}>{category.name}</p>
                 <ProductsWrapper>
                   {
-                    category.products.map(product => <ProductItem key={product.id} product={product} />)
+                    category.products.map(product => 
+                      <ProductItem 
+                        key={product.id} 
+                        product={product} />
+                    )
                   }
                 </ProductsWrapper>
               </div>

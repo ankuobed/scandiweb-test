@@ -39,12 +39,14 @@ export class StateProvider extends Component<{}, State> {
     state = initialState
 
     addToCart = (product: Product) => {
+        console.log('add')
         this.setState({
             cartItems: addToCartItems(product, this.state.cartItems)
         })
     }
 
     removeFromCart = (product: Product) => {
+        console.log('remove')
         this.setState({
             cartItems: removeFromCartItems(product, this.state.cartItems)
         })

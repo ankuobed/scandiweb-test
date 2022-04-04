@@ -72,8 +72,8 @@ export default class ProductPage extends Component<{}, State> {
                     <Flex>
                       {
                         attr.items[0].value.charAt(0) === '#' ?
-                        attr.items.map(attrItem => <AttributeColor color={attrItem.value} active={attr.items.indexOf(attrItem) === 1} />) :
-                        attr.items.map(attrItem => <AttributeItem active={attr.items.indexOf(attrItem) === 1}>{attrItem.value}</AttributeItem>)
+                        attr.items.map(attrItem => <AttributeColor key={attrItem.id} color={attrItem.value} active={attr.items.indexOf(attrItem) === 1} />) :
+                        attr.items.map(attrItem => <AttributeItem key={attrItem.id} active={attr.items.indexOf(attrItem) === 1}>{attrItem.value}</AttributeItem>)
                       }
                     </Flex>
                   </div>
