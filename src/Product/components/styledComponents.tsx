@@ -60,25 +60,6 @@ export const AddToCartButton = styled.button(({ theme }) => ({
     margin: '35px 0'
 }))
 
-export const AttributeItem = styled.button<{ active?: boolean }>(({ theme, active }) => ({
-    backgroundColor: active ? theme.SECONDARY : '#ffffff',
-    border: `1.5px solid ${theme.SECONDARY}`,
-    color: active ? '#ffffff' : undefined,
-    minWidth: 60,
-    height: 42,
-    cursor: 'pointer',
-    marginRight: 12,
-}))
-
-export const AttributeColor = styled.button<{ active?: boolean; color: string }>(({ theme, active, color }) => ({
-    backgroundColor: color,
-    border: active ? '2.5px solid #5e5e5e' : `1.5px solid ${theme.SECONDARY}`,
-    minWidth: 60,
-    height: 42,
-    cursor: 'pointer',
-    marginRight: 12,
-}))
-
 export const Label = styled.p({
     fontWeight: 'bold',
     fontFamily: 'Roboto',

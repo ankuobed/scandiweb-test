@@ -103,7 +103,7 @@ export interface Category {
 export interface ICartItem {
     product: Product;
     quantity: number;
-    // selectedAttributes: Attribute[];
+    selectedAttributes: Attribute[];
 }
 
 declare module 'styled-components' {

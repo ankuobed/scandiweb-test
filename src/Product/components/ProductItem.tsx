@@ -19,7 +19,10 @@ export default class ProductItem extends Component<Props> {
     static contextType = StateContext
 
     addToCart = () => {
-        this.context.addToCart(this.product)
+        this.context.addToCart(
+            this.product,
+            this.product.attributes.map(attr => attr.items[0])
+        )
     }
     
     render() {

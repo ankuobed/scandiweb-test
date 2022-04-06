@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { Component, createContext } from 'react'
-import { Currency, ICartItem, Product } from './types';
+import { Attribute, Currency, ICartItem, Product } from './types';
 import { addToCartItems, removeFromCartItems } from './utils';
 
 interface State {
@@ -8,12 +8,19 @@ interface State {
     cartItems: ICartItem[];
 }
 
+interface SelectAttributeParams {
+    attribute: Attribute;
+    cartItem: ICartItem;
+    index: number;
+}
+
 interface IStateContext {
     apolloClient:  ApolloClient<NormalizedCacheObject>;
     state: State;
     setCurrency: ((currency: Currency) => void) | null;
-    addToCart: ((product: Product) => void) | null;
+    addToCart: ((product: Product, selectedAttributes: ICartItem['selectedAttributes']) => void) | null;
     removeFromCart: ((product: Product) => void) | null;
+    selectAttribute: ((params: SelectAttributeParams) => void) | null;
 }
 
 const client = new ApolloClient({
@@ -32,23 +39,40 @@ export const StateContext = createContext<IStateContext>({
     setCurrency: null,
     addToCart: null,
     removeFromCart: null,
+    selectAttribute: null
 });
-
 
 export class StateProvider extends Component<{}, State> {
     state = initialState
 
-    addToCart = (product: Product) => {
-        console.log('add')
+    addToCart = (product: Product, selectedAttributes: ICartItem['selectedAttributes']) => {
         this.setState({
-            cartItems: addToCartItems(product, this.state.cartItems)
+            cartItems: addToCartItems(product, this.state.cartItems, selectedAttributes)
         })
     }
 
     removeFromCart = (product: Product) => {
-        console.log('remove')
         this.setState({
             cartItems: removeFromCartItems(product, this.state.cartItems)
+        })
+    }
+
+    selectAttribute = ({ attribute, cartItem, index }: SelectAttributeParams) => {
+        this.setState(prevState => {
+            cartItem.selectedAttributes[index] = attribute
+
+            return {
+                cartItems: prevState.cartItems.map(c => {
+                    if(cartItem.product.id === c.product.id) {
+                        return {
+                            ...c,
+                            selectedAttributes: cartItem.selectedAttributes
+                        }
+                    }
+
+                    return c;
+                })
+            }
         })
     }
     
@@ -63,7 +87,8 @@ export class StateProvider extends Component<{}, State> {
                 state: this.state, 
                 setCurrency: setCurrency,
                 addToCart: this.addToCart,
-                removeFromCart: this.removeFromCart
+                removeFromCart: this.removeFromCart,
+                selectAttribute: this.selectAttribute
             }}>
                 {this.props.children}
             </StateContext.Provider>

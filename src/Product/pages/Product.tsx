@@ -1,19 +1,21 @@
 import { Component } from 'react'
-import { Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared';
-import { AddToCartButton, AttributeItem, Label, Description, Price, Brand, Name, AttributeColor, MainImage, SubImages, SubImage } from '../components/styledComponents';
+import { Attributes, Flex, formatPrice, getPrice, ICartItem, Product, StateContext } from '../../_shared';
+import { AddToCartButton, Label, Description, Price, Brand, Name, MainImage, SubImages, SubImage } from '../components/styledComponents';
 import { getProduct } from '../services/graphql';
 
 interface State {
   loading: boolean;
   error: string | undefined;
   product: null | Product;
+  selectedAttributes: ICartItem['selectedAttributes']
 }
 
 export default class ProductPage extends Component<{}, State> {
   state = {
     loading: false,
     error: '',
-    product: null as never as Product
+    product: null as never as Product,
+    selectedAttributes: [] as ICartItem['selectedAttributes']
   }
 
   static contextType = StateContext;
@@ -25,12 +27,25 @@ export default class ProductPage extends Component<{}, State> {
     (async () => {
       this.setState({ loading: true })
       const result = await getProduct(this.client, this.id);
-      this.setState({ loading: false, ...result })
+      this.setState({ 
+        loading: false,
+        ...result, 
+        selectedAttributes: result.product.attributes.map(attr => attr.items[0])
+      })
     })();
   }
 
   addToCart = () => {
-    this.context.addToCart(this.state.product)
+    this.context.addToCart(this.state.product, this.state.selectedAttributes)
+  }
+
+  selectAttribute = (attribute, index) => {
+    this.setState(prevState => {
+      prevState.selectedAttributes[index] = attribute
+      return {
+        selectedAttributes: prevState.selectedAttributes
+      }
+    })
   }
 
   render() {
@@ -65,20 +80,12 @@ export default class ProductPage extends Component<{}, State> {
               <Brand>{this.state?.product?.brand}</Brand>
               <Name>{this.state?.product?.name}</Name>
 
-              {
-                this.state?.product?.attributes.map(attr => (
-                  <div>
-                    <Label>{attr.name.toUpperCase()}:</Label>
-                    <Flex>
-                      {
-                        attr.items[0].value.charAt(0) === '#' ?
-                        attr.items.map(attrItem => <AttributeColor key={attrItem.id} color={attrItem.value} active={attr.items.indexOf(attrItem) === 1} />) :
-                        attr.items.map(attrItem => <AttributeItem key={attrItem.id} active={attr.items.indexOf(attrItem) === 1}>{attrItem.value}</AttributeItem>)
-                      }
-                    </Flex>
-                  </div>
-                ))
-              }
+              <Attributes
+                attributes={this.state.product.attributes}
+                selectedAttributes={this.state.selectedAttributes}
+                onSelect={this.selectAttribute}
+                labels
+              />
 
               <Label>PRICE:</Label>
               <Price>{formatPrice(price)}</Price>

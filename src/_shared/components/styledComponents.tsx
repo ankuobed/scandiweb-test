@@ -52,7 +52,36 @@ export const Overlay = styled.div<{
     position: 'absolute',
     top: 65,
     left: 0,
-    height: '90vh',
-    width: window.screen.width - 18,
+	right: 0,
+	bottom: 0,
     background: variant === 'transparent' ? 'transparent' : '#00000036',
 }))
+
+export const AttributeItem = styled.button<{ selected?: boolean; sm: boolean; }>(({ theme, selected, sm }) => ({
+    backgroundColor: selected ? sm ? '#00000022' : theme.SECONDARY : theme.BACKGROUND,
+    border: `1.5px solid ${theme.SECONDARY}`,
+    color: selected ? sm ? undefined : theme.BACKGROUND : undefined,
+    minWidth: sm ? 24 : 60,
+    height: sm ? 24 : 42,
+    cursor: 'pointer',
+    marginRight: 12,
+	fontSize: sm ? 14 : 16,
+	marginBottom: sm ? 6 : undefined
+}))
+
+export const AttributeColor = styled.button<{ selected?: boolean; color: string; sm: boolean }>(({ theme, selected, color, sm }) => ({
+    backgroundColor: color,
+    border: selected ? '2.5px solid #5e5e5e' : `1.5px solid ${theme.SECONDARY}`,
+    minWidth: sm ? 30 : 60,
+    height: sm ? 24: 42,
+    cursor: 'pointer',
+    marginRight: 12,
+	fontSize: sm ? 14 : 16,
+	marginBottom: sm ? 6 : undefined
+}))
+
+export const Label = styled.p({
+    fontWeight: 'bold',
+    fontFamily: 'Roboto',
+    marginTop: 35
+})

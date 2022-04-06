@@ -64,27 +64,6 @@ export const Quantity = styled.p({
     fontWeight: 'bold'
 })
 
-export const AttributeItem = styled.button<{ active?: boolean }>(({ theme, active }) => ({
-    backgroundColor: active ? '#00000022' : '#ffffff',
-    border: `1.5px solid ${theme.SECONDARY}`,
-    minWidth: 24,
-    height: 24,
-    cursor: 'pointer',
-    marginRight: 12,
-    fontSize: 14,
-    marginBottom: 6
-}))
-
-export const AttributeColor = styled.button<{ active?: boolean; color: string }>(({ theme, active, color }) => ({
-    backgroundColor: color,
-    border: active ? '2.5px solid #5e5e5e' : `1.5px solid ${theme.SECONDARY}`,
-    minWidth: 30,
-    height: 24,
-    cursor: 'pointer',
-    marginRight: 12,
-    marginBottom: 6
-}))
-
 export const ViewBagButton = styled(Link)(({ theme }) => ({
     fontSize: 14,
     border: `1px solid ${theme.SECONDARY}`,

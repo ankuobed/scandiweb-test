@@ -1,8 +1,6 @@
 import { Component } from 'react'
-import { Flex, formatPrice, getPrice, ICartItem, StateContext } from '../../_shared'
+import { Attributes, Flex, formatPrice, getPrice, ICartItem, StateContext } from '../../_shared'
 import { 
-    AttributeColor, 
-    AttributeItem, 
     Brand, 
     DecreaseButton, 
     Image, 
@@ -18,17 +16,27 @@ export default class CartItem extends Component<{ cartItem: ICartItem }> {
     static contextType = StateContext;
 
     addToCart = () => {
-        this.context.addToCart(this.props.cartItem.product)
+        this.context.addToCart(
+            this.props.cartItem.product, 
+            this.props.cartItem.selectedAttributes
+        )
     }
 
     removeFromCart = () => {
         this.context.removeFromCart(this.props.cartItem.product)
     }
 
+    selectAttribute = (attribute, index) => {
+        this.context.selectAttribute({
+            attribute,
+            cartItem: this.props.cartItem,
+            index
+        })
+    }
+
     render() {
-        const { quantity, product } = this.props.cartItem;
+        const { quantity, product, selectedAttributes } = this.props.cartItem;
         const price = getPrice(product.prices, this.context.state.currency)
-        const attr = product?.attributes[0]
 
         return (
         <Flex justify="space-between" align="flex-start" mt={45}>
@@ -39,16 +47,12 @@ export default class CartItem extends Component<{ cartItem: ICartItem }> {
                 </div>
                 <Price>{formatPrice(price)}</Price>
 
-                {
-                    attr?.items?.length > 0 &&
-                    <Flex flexWrap="wrap" mb={-6}>
-                    {
-                        attr.items[0].value.charAt(0) === '#' ?
-                        attr.items.map(attrItem => <AttributeColor color={attrItem.value} active={attr.items.indexOf(attrItem) === 1} />) :
-                        attr.items.map(attrItem => <AttributeItem active={attr.items.indexOf(attrItem) === 1}>{attrItem.value}</AttributeItem>)
-                    }
-                    </Flex>
-                }
+                <Attributes
+                    attributes={[product.attributes[0]]}
+                    selectedAttributes={selectedAttributes}
+                    onSelect={this.selectAttribute}
+                    variant="small"
+                />
             </Flex>
 
             <Flex>

@@ -8,7 +8,7 @@ export const formatPrice = (price: Price) => {
     return `${price.currency.symbol}${price.amount}`
 }
 
-export const addToCartItems = (product: Product, cartItems: ICartItem[]) => {
+export const addToCartItems = (product: Product, cartItems: ICartItem[], selectedAttributes: ICartItem['selectedAttributes']) => {
     const productAlreadyExists = cartItems.find(cartItem => cartItem.product.id === product.id)
 
     if(productAlreadyExists) {
@@ -17,6 +17,7 @@ export const addToCartItems = (product: Product, cartItems: ICartItem[]) => {
                 return { 
                     ...cartItem, 
                     quantity: cartItem.quantity + 1,
+                    selectedAttributes
                 }
             }
 
@@ -27,7 +28,8 @@ export const addToCartItems = (product: Product, cartItems: ICartItem[]) => {
             ...cartItems,
             {
                 product,
-                quantity: 1
+                quantity: 1,
+                selectedAttributes
             }
         ]
     }
