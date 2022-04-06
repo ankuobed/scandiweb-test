@@ -15,7 +15,7 @@ export default class CartDialogBox extends Component<Props> {
     const { cartItems, currency } = this.context.state
 
     return (
-      <Overlay 
+      <Overlay
         visible={this.props.open} 
         onClick={this.props.onClose}
       >
@@ -29,7 +29,8 @@ export default class CartDialogBox extends Component<Props> {
                 cartItems.map((cartItem: ICartItem) => 
                   <CartItem 
                     key={cartItem.product.id} 
-                    cartItem={cartItem} 
+                    cartItem={cartItem}
+                    variant="small"
                   />
                 )
               }

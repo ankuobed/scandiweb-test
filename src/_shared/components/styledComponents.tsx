@@ -44,17 +44,18 @@ export const Flex = styled.div<IFlex>(
 	})
 );
 
-export const Overlay = styled.div<{ 
+export const OverlayWrapper = styled.div<{ 
     variant?: 'translucent' | 'transparent'; 
     visible: boolean;
 }>(({ variant, visible  }) => ({
     display: visible ? 'block' : 'none',
-    position: 'absolute',
+    position: 'fixed',
     top: 65,
     left: 0,
 	right: 0,
 	bottom: 0,
     background: variant === 'transparent' ? 'transparent' : '#00000036',
+	overflowY: 'auto',
 }))
 
 export const AttributeItem = styled.button<{ selected?: boolean; sm: boolean; }>(({ theme, selected, sm }) => ({
@@ -66,7 +67,6 @@ export const AttributeItem = styled.button<{ selected?: boolean; sm: boolean; }>
     cursor: 'pointer',
     marginRight: 12,
 	fontSize: sm ? 14 : 16,
-	marginBottom: sm ? 6 : undefined
 }))
 
 export const AttributeColor = styled.button<{ selected?: boolean; color: string; sm: boolean }>(({ theme, selected, color, sm }) => ({
@@ -77,7 +77,7 @@ export const AttributeColor = styled.button<{ selected?: boolean; color: string;
     cursor: 'pointer',
     marginRight: 12,
 	fontSize: sm ? 14 : 16,
-	marginBottom: sm ? 6 : undefined
+	marginTop: sm ? 6 : undefined
 }))
 
 export const Label = styled.p({
@@ -85,3 +85,10 @@ export const Label = styled.p({
     fontFamily: 'Roboto',
     marginTop: 35
 })
+
+export const Divider = styled.div<{ height?: number }>(({ height }) => ({
+	width: '100%',
+	backgroundColor: '#e6e6e6',
+	height: 1,
+	margin: `${height || 5}px 0`
+}));

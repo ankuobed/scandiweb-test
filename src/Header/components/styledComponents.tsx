@@ -1,10 +1,20 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Flex } from "../../_shared";
 
-export const NavItem = styled.a<{ active?: boolean }>(({ theme, active }) => ({
+export const HeaderWrapper = styled(Flex)(({ theme }) => ({
+    padding: 10,
+    position: 'sticky',
+    top: 0,
+    backgroundColor: theme.BACKGROUND
+}))
+
+export const NavItem = styled(Link)<{ active?: boolean }>(({ theme, active }) => ({
     color: active ? theme.PRIMARY : theme.SECONDARY,
     padding: 18,
     borderBottom: active ? `1px solid ${theme.PRIMARY}` : undefined,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    textDecoration: 'none'
 }))
 
 export const CurrencySwitcherWrapper = styled.div({

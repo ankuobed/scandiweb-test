@@ -33,36 +33,41 @@ export const CartDialogWrapper = styled.div({
     padding: 16,
 })
 
-export const Price = styled.p({
+export const Price = styled.p<{ sm: boolean; }>(({ sm }) => ({
     fontWeight: 'bold',
     margin: 0,
-})
+    fontSize: sm ? 16 : 20
+}))
 
-export const Brand = styled.p({
+export const Brand = styled.p<{ sm: boolean; }>(({ sm }) => ({
     margin: 0,
-    marginBottom: 7
-})
+    marginBottom: 7,
+    fontSize: sm ? 16 : 24,
+    fontWeight: sm ? 'normal' : 'bold'
+}))
 
-export const Name = styled.p({
-    margin: 0
-})
+export const Name = styled.p<{ sm: boolean; }>(({ sm }) => ({
+    margin: 0,
+    fontSize: sm ? 16 : 24
+}))
 
-export const Image = styled.img({
-    width: 100,
-    height: 130
-})
+export const Image = styled.img<{ sm: boolean; }>(({ sm }) => ({
+    width: sm ? 100 : 140,
+    height: sm ? 130 : 170,
+}))
 
-export const IncreaseButton = styled.img(({ theme }) => ({
-    width: 25,
-    height: 25,
+export const IncreaseButton = styled.img<{ sm: boolean; }>(({ sm }) => ({
+    width: sm ? 25 : 32,
+    height: sm ? 25 : 32,
     cursor: 'pointer'
 }))
 
 export const DecreaseButton = IncreaseButton
 
-export const Quantity = styled.p({
-    fontWeight: 'bold'
-})
+export const Quantity = styled.p<{ sm: boolean; }>(({ sm }) => ({
+    fontWeight: 'bold',
+    fontSize: sm ? 16 : 20
+}))
 
 export const ViewBagButton = styled(Link)(({ theme }) => ({
     fontSize: 14,

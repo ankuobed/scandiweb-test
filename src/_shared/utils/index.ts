@@ -66,3 +66,7 @@ export const getTotal = (cartItems: ICartItem[], currency: Currency) => {
 
     return `${currency.symbol}${total.toFixed(2)}`
 }
+
+export const capitalize = (text: string) => {
+    return text?.charAt(0)?.toUpperCase() + text?.slice(1)
+}

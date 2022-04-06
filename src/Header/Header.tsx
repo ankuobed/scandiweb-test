@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { Currency, Flex, StateContext } from '../_shared'
-import { NavItem } from './components/styledComponents'
+import { HeaderWrapper, NavItem } from './components/styledComponents'
 import logo from '../assets/images/logo.svg'
 import { CartButton, CartDialog } from '../Cart'
 import { getCurrencies } from './services/graphql'
@@ -11,13 +11,19 @@ interface State {
   currencies: Currency[];
   currencySwitcherOpen: boolean;
   cartDialogOpen: boolean;
+  currentPage: string;
 }
 
-export default class Header extends Component<{}, State> {
+interface Props {
+  categoryNames: string[]
+}
+
+export default class Header extends Component<Props, State> {
   state = {
     currencies: [],
     currencySwitcherOpen: false,
-    cartDialogOpen: false
+    cartDialogOpen: false,
+    currentPage: '/'
   }
 
   static contextType = StateContext
@@ -35,11 +41,23 @@ export default class Header extends Component<{}, State> {
     const cartCount = this.context.state.cartItems.reduce((acc, cartItem) => acc + cartItem.quantity, 0)
 
     return (
-      <Flex justify="space-between" style={{ padding: 10 }}>
+      <HeaderWrapper justify="space-between">
         <Flex>
-          <NavItem active >WOMEN</NavItem>
-          <NavItem>MEN</NavItem>
-          <NavItem>KIDS</NavItem>
+          {
+            this.props.categoryNames.length > 0 &&
+            this.props.categoryNames.map(name => {
+              const route = name === 'all'? '/' : `/${name}`
+
+              return (
+                <NavItem 
+                  to={route}
+                  active={this.state.currentPage === route}
+                  onClick={() => this.setState({ currentPage: route })}
+                >
+                  {name.toUpperCase()}
+                </NavItem>)
+            })
+          }
         </Flex>
         
         <img src={logo} alt="Logo" style={{ width: 32, height: 30 }} />
@@ -74,7 +92,7 @@ export default class Header extends Component<{}, State> {
             />
           </>
         </Flex>
-      </Flex>
+      </HeaderWrapper>
     )
   }
 }

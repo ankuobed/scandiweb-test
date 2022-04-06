@@ -12,7 +12,12 @@ import {
 import plusIcon from '../../assets/images/plus.svg'
 import minusIcon from '../../assets/images/minus.svg'
 
-export default class CartItem extends Component<{ cartItem: ICartItem }> {
+interface Props {
+    cartItem: ICartItem;
+    variant?: 'default' | 'small'
+}
+
+export default class CartItem extends Component<Props> {
     static contextType = StateContext;
 
     addToCart = () => {
@@ -35,29 +40,45 @@ export default class CartItem extends Component<{ cartItem: ICartItem }> {
     }
 
     render() {
-        const { quantity, product, selectedAttributes } = this.props.cartItem;
+        const { 
+            variant = 'default', 
+            cartItem: { 
+                quantity, 
+                product, 
+                selectedAttributes 
+            } 
+        } = this.props
         const price = getPrice(product.prices, this.context.state.currency)
 
         return (
-        <Flex justify="space-between" align="flex-start" mt={45}>
-            <Flex direction="column" justify="space-between" align="flex-start" style={{ height: 130 }}>
+        <Flex 
+            justify="space-between" 
+            align="flex-start" 
+            mt={variant === 'small' ? 45 : undefined}
+        >
+            <Flex 
+                direction="column" 
+                justify="space-between" 
+                align="flex-start" 
+                style={{ minHeight: variant === 'default' ? 170 : 130 }}
+            >
                 <div>
-                    <Brand>{product.brand}</Brand>
-                    <Name>{product.name}</Name>
+                    <Brand sm={variant === 'small'}>{product.brand}</Brand>
+                    <Name sm={variant === 'small'}>{product.name}</Name>
                 </div>
-                <Price>{formatPrice(price)}</Price>
+                <Price sm={variant === 'small'}>{formatPrice(price)}</Price>
 
                 <Attributes
-                    attributes={[product.attributes[0]]}
+                    attributes={product.attributes}
                     selectedAttributes={selectedAttributes}
                     onSelect={this.selectAttribute}
-                    variant="small"
+                    variant={variant}
                 />
             </Flex>
 
             <Flex>
                 <Flex 
-                    style={{ height: 130 }} 
+                    style={{ height: variant === 'default' ? 170 : 130 }} 
                     direction="column" 
                     justify="space-between"
                     mr={12}
@@ -65,16 +86,18 @@ export default class CartItem extends Component<{ cartItem: ICartItem }> {
                     <IncreaseButton 
                         alt="increase" 
                         src={plusIcon} 
-                        onClick={this.addToCart} 
+                        onClick={this.addToCart}
+                        sm={variant === 'small'} 
                     />
-                    <Quantity>{quantity}</Quantity>
+                    <Quantity sm={variant === 'small'}>{quantity}</Quantity>
                     <DecreaseButton 
                         alt="decrease" 
                         src={minusIcon}
-                        onClick={this.removeFromCart}  
+                        onClick={this.removeFromCart}
+                        sm={variant === 'small'}  
                     />
                 </Flex>
-                <Image alt={product.name} src={product.gallery[0]} />
+                <Image alt={product.name} src={product.gallery[0]} sm={variant === 'small'} />
             </Flex>
         </Flex>
         )

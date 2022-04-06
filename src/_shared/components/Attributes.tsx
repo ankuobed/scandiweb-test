@@ -20,44 +20,39 @@ export class Attributes extends Component<Props> {
             labels = false
         } = this.props
 
-        return (
-        <div>
-            {
-                attributes && attributes.map((attr, index) => (
-                    <div>
-                        {
-                            labels &&
-                            <Label>{attr.name.toUpperCase()}:</Label>
-                        }
-                        <Flex 
-                            flexWrap={variant === 'small' ? 'wrap' : undefined} 
-                            mb={variant === 'small' ? -6 : undefined}
-                        >
-                            {
-                                attr.items[0].value.charAt(0) === '#' ?
-                                attr.items.map(attrItem => 
-                                <AttributeColor 
-                                    key={attrItem.id}
-                                    sm={variant === 'small'}
-                                    color={attrItem.value} 
-                                    selected={attrItem.id === selectedAttributes[index].id}
-                                    onClick={() => onSelect(attrItem, index)} 
-                                />) :
-                                attr.items.map(attrItem => 
-                                <AttributeItem 
-                                    key={attrItem.id}
-                                    sm={variant === 'small'}
-                                    selected={attrItem.id === selectedAttributes[index].id}
-                                    onClick={() => onSelect(attrItem, index)}
-                                >
-                                    {attrItem.value}
-                                </AttributeItem>)
-                            }
-                        </Flex>
-                    </div>
-                ))
+        return attributes.length > 0 && attributes.map((attr, index) => (
+            <div>
+                {
+                    labels &&
+                    <Label>{attr.name.toUpperCase()}:</Label>
                 }
-        </div>
-        )
+                <Flex 
+                    flexWrap={variant === 'small' ? 'wrap' : undefined} 
+                    mt={25}
+                >
+                    {
+                        attr?.type === 'swatch' ?
+                        attr?.items.map(attrItem => 
+                        <AttributeColor 
+                            key={attrItem.id}
+                            sm={variant === 'small'}
+                            color={attrItem.value} 
+                            selected={attrItem.id === selectedAttributes[index].id}
+                            onClick={() => onSelect(attrItem, index)} 
+                        />) :
+                        attr?.items.map(attrItem => 
+                        <AttributeItem 
+                            key={attrItem.id}
+                            sm={variant === 'small'}
+                            selected={attrItem.id === selectedAttributes[index].id}
+                            onClick={() => onSelect(attrItem, index)}
+                        >
+                            {attrItem.value}
+                        </AttributeItem>)
+                    }
+                </Flex>
+            </div>
+        ))
+               
     }
 }

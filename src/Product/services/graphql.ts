@@ -21,6 +21,7 @@ export const getCategories = async (client: ApolloClient<NormalizedCacheObject>)
               gallery,
               attributes {
                 id,
+                type,
                 name,
                 items {
                   id,
@@ -56,6 +57,7 @@ export const getProduct = async (client: ApolloClient<NormalizedCacheObject>, id
           brand,
           attributes {
             id,
+            type,
             name,
             items {
               id,
