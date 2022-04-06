@@ -1,5 +1,12 @@
 import { Component } from 'react'
-import { Attributes, Flex, formatPrice, getPrice, ICartItem, StateContext } from '../../_shared'
+import { 
+    Attributes, 
+    Flex, 
+    formatPrice, 
+    getPrice, 
+    ICartItem, 
+    StateContext 
+} from '../../_shared'
 import { 
     Brand, 
     DecreaseButton, 

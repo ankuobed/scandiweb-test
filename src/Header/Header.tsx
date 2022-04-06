@@ -1,9 +1,9 @@
 import { Component } from 'react'
-import { Currency, Flex, StateContext } from '../_shared'
+import { Currency, Flex, isNotEmpty, StateContext } from '../_shared'
 import { HeaderWrapper, NavItem } from './components/styledComponents'
 import logo from '../assets/images/logo.svg'
 import { CartButton, CartDialog } from '../Cart'
-import { getCurrencies } from './services/graphql'
+import { getCurrencies } from './graphqlQueries'
 import CurrencySwitcher from './components/CurrencySwitcher'
 import CurrencySwitcherButton from './components/CurrencySwitcherButton'
 
@@ -38,13 +38,14 @@ export default class Header extends Component<Props, State> {
 
   render() {
     const currency = this.context.state.currency;
-    const cartCount = this.context.state.cartItems.reduce((acc, cartItem) => acc + cartItem.quantity, 0)
+    const cartCount = this.context.state.cartItems.reduce(
+      (acc, cartItem) => acc + cartItem.quantity, 0)
 
     return (
       <HeaderWrapper justify="space-between">
         <Flex>
           {
-            this.props.categoryNames.length > 0 &&
+            isNotEmpty(this.props.categoryNames) &&
             this.props.categoryNames.map(name => {
               const route = name === 'all'? '/' : `/${name}`
 

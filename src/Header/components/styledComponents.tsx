@@ -38,3 +38,8 @@ export const ChevronDown = styled.img<{ up: boolean; }>(({ up }) => ({
     width: 10,
     transform: up ? 'rotate(180deg)' : undefined
 }))
+
+export const CurrencySymbol = styled.span({
+    fontSize: 19,
+    marginRight: 5
+})

@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { Attribute, ICartItem, Product } from '../types'
+import { isNotEmpty } from '../utils';
 import { AttributeColor, AttributeItem, Flex, Label } from './styledComponents';
 
 interface Props {
@@ -20,7 +21,7 @@ export class Attributes extends Component<Props> {
             labels = false
         } = this.props
 
-        return attributes.length > 0 && attributes.map((attr, index) => (
+        return isNotEmpty(attributes) && attributes.map((attr, index) => (
             <div>
                 {
                     labels &&

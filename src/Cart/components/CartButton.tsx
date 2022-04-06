@@ -14,7 +14,9 @@ export  default class CartButton extends Component<Props> {
         <CartIcon />
         {
           this.props.count > 0 &&
-          <CartBadge>{this.props.count}</CartBadge>
+          <CartBadge>
+            {this.props.count}
+          </CartBadge>
         }
       </Flex>
     )

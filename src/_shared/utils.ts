@@ -1,4 +1,4 @@
-import { Currency, ICartItem, Price, Product } from "../types";
+import { Currency, ICartItem, Price, Product } from "./types";
 
 export const getPrice = (prices: Price[], currency: Currency) => {
     return prices?.find(p => p.currency.label === currency.label) as Price
@@ -69,4 +69,10 @@ export const getTotal = (cartItems: ICartItem[], currency: Currency) => {
 
 export const capitalize = (text: string) => {
     return text?.charAt(0)?.toUpperCase() + text?.slice(1)
+}
+
+export const isNotEmpty = (array: Array<any>) => array.length > 0
+
+export const formatCurrency = (currency: Currency) => {
+    return  `${currency.symbol} ${currency.label}`
 }

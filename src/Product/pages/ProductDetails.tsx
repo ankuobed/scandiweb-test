@@ -1,19 +1,33 @@
 import { Component } from 'react'
-import { Attributes, Flex, formatPrice, getPrice, ICartItem, Product, StateContext } from '../../_shared';
-import { AddToCartButton, Label, Description, Price, Brand, Name, MainImage, SubImages, SubImage } from '../components/styledComponents';
-import { getProduct } from '../services/graphql';
+import { 
+  Attributes, 
+  Flex, 
+  formatPrice, 
+  getPrice, 
+  ICartItem, 
+  Product, 
+  StateContext 
+} from '../../_shared';
+import { 
+  AddToCartButton, 
+  Label, 
+  Description, 
+  Price, 
+  Brand, 
+  Name, 
+  MainImage, 
+  SubImages, 
+  SubImage 
+} from '../components/styledComponents';
+import { getProduct } from '../graphqlQueries';
 
 interface State {
-  loading: boolean;
-  error: string | undefined;
   product: null | Product;
   selectedAttributes: ICartItem['selectedAttributes']
 }
 
-export default class ProductPage extends Component<{}, State> {
+export default class ProductDetails extends Component<{}, State> {
   state = {
-    loading: false,
-    error: '',
     product: null as never as Product,
     selectedAttributes: [] as ICartItem['selectedAttributes']
   }
@@ -25,10 +39,8 @@ export default class ProductPage extends Component<{}, State> {
 
   componentDidMount() {
     (async () => {
-      this.setState({ loading: true })
       const result = await getProduct(this.client, this.id);
       this.setState({ 
-        loading: false,
         ...result, 
         selectedAttributes: result.product.attributes.map(attr => attr.items[0])
       })

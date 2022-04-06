@@ -1,5 +1,12 @@
 import { Component } from 'react'
-import { constants, Flex, formatPrice, getPrice, Product, StateContext } from '../../_shared'
+import { 
+    constants, 
+    Flex, 
+    formatPrice, 
+    getPrice, 
+    Product, 
+    StateContext 
+} from '../../_shared'
 import { 
     AddToCartButtonRounded, 
     ProductItemWrapper, 

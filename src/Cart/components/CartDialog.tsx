@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Flex, getTotal, ICartItem, Overlay, StateContext } from '../../_shared'
+import { Flex, getTotal, ICartItem, isNotEmpty, Overlay, StateContext } from '../../_shared'
 import CartItem from './CartItem';
 import { CartDialogWrapper, CheckoutButton, ViewBagButton } from './styledComponents';
 
@@ -21,7 +21,7 @@ export default class CartDialogBox extends Component<Props> {
       >
         <CartDialogWrapper onClick={e => e.stopPropagation()}>
           {
-            cartItems.length > 0 ?
+            isNotEmpty(cartItems) ?
             <>
               <p><b>My Bage,</b> {cartItems.length} Item{cartItems.length > 1 && 's'}</p>
 

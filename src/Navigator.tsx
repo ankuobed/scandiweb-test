@@ -5,23 +5,19 @@ import {
   Route,
 } from "react-router-dom"
 import './App.css'
-import { ProductList, Product } from './Product'
+import { ProductList, ProductDetails } from './Product'
 import { Cart } from './Cart'
-import { Category, StateContext } from './_shared'
+import { Category, isNotEmpty, StateContext } from './_shared'
 import Header from './Header';
-import { getCategories } from './Product/services/graphql'
+import { getCategories } from './Product/graphqlQueries'
 
 interface State {
   categories: Category[];
-  loading: boolean;
-  error: string | undefined
 }
 
 export default class Navigator extends Component<{}, State> {
   state = {
     categories: [] as Category[],
-    loading: false,
-    error: ''
   }
   
   static contextType = StateContext
@@ -29,14 +25,12 @@ export default class Navigator extends Component<{}, State> {
   
   componentDidMount() {
     (async () => {
-      this.setState({ loading: true })
       const result = await getCategories(this.client)
-      this.setState({ loading: false, ...result })
+      this.setState({ ...result })
     })();
   }
 
   render() {
-      console.log(this.state.categories)
     return (
         <BrowserRouter>
             <Header
@@ -48,7 +42,7 @@ export default class Navigator extends Component<{}, State> {
                 element={<ProductList category={this.state.categories[0]} />} 
             />
             {
-                this.state.categories.length > 0 &&
+                isNotEmpty(this.state.categories) &&
                 this.state.categories.slice(1).map(category => (
                 <Route 
                     path={`/${category.name}`} 
@@ -56,7 +50,7 @@ export default class Navigator extends Component<{}, State> {
                 />
                 ))
             }
-            <Route path="/product/:id" element={<Product />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             </Routes>
         </BrowserRouter>

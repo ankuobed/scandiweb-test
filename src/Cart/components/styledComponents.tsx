@@ -2,18 +2,19 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import cart from '../../assets/images/cart.svg'
 
-
 export const CartIcon = styled(props => <img src={cart} alt="Cart" {...props} />)({
     width: 23
 })
 
 export const CartBadge = styled.div(({ theme }) => ({
     background: theme.SECONDARY,
-    width: 18,
-    height: 17,
+    width: 10,
+    height: 10,
+    padding: 6,
     borderRadius: '50%',
     color: '#ffffff',
-    fontSize: 13,
+    fontSize: 14,
+    fontWeight: 'bold',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
