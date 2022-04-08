@@ -66,7 +66,7 @@ export const Label = styled.p({
     marginTop: 35
 })
 
-export const Description = styled.p({
+export const DescriptionText = styled.p({
     fontFamily: 'Roboto',
     lineHeight: '160%'
 })

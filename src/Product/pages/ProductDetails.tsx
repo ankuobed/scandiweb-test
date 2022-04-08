@@ -8,10 +8,10 @@ import {
   Product, 
   StateContext 
 } from '../../_shared';
+import Description from '../components/Description';
 import { 
   AddToCartButton, 
   Label, 
-  Description, 
   Price, 
   Brand, 
   Name, 
@@ -106,12 +106,8 @@ export default class ProductDetails extends Component<{}, State> {
                 ADD TO CART
               </AddToCartButton>
 
-              <Description 
-                dangerouslySetInnerHTML={{ 
-                  __html: this.state?.product?.description 
-                }} 
-              />
-            </div>
+              <Description html={this.state?.product?.description} />
+           </div>
           </Flex>
         }
       </div>
