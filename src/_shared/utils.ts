@@ -8,12 +8,19 @@ export const formatPrice = (price: Price) => {
     return `${price.currency.symbol}${price.amount}`
 }
 
+export const isReallyEqual = (x, y) => {
+    return JSON.stringify(x) === JSON.stringify(y)
+}
+
 export const addToCartItems = (product: Product, cartItems: ICartItem[], selectedAttributes: ICartItem['selectedAttributes']) => {
-    const productAlreadyExists = cartItems.find(cartItem => cartItem.product.id === product.id)
+    const productAlreadyExists = cartItems.find(cartItem => (
+        cartItem.product.id === product.id &&
+        isReallyEqual(cartItem.selectedAttributes, selectedAttributes)
+    ))
 
     if(productAlreadyExists) {
         return cartItems.map(cartItem => {
-            if(product.id === cartItem.product.id) {
+            if(product.id === cartItem.product.id && isReallyEqual(cartItem.selectedAttributes, selectedAttributes)) {
                 return { 
                     ...cartItem, 
                     quantity: cartItem.quantity + 1,
@@ -35,22 +42,25 @@ export const addToCartItems = (product: Product, cartItems: ICartItem[], selecte
     }
 }
 
-export const removeFromCartItems = (product: Product, cartItems: ICartItem[]) => {
-    return cartItems.reduce((acc, cartItem) => {
-        if(cartItem.product.id === product.id) {
+export const reduceCartItemQty = (cartItem: ICartItem, cartItems: ICartItem[]) => {
+    return cartItems.reduce((acc, item) => {
+        if(
+            item.product.id === cartItem.product.id && 
+            isReallyEqual(item.selectedAttributes, cartItem.selectedAttributes)
+        ) {
             if(cartItem.quantity > 1) {
                 return [
                     ...acc,
                     {
-                        ...cartItem,
-                        quantity: cartItem.quantity - 1
+                        ...item,
+                        quantity: item.quantity - 1
                     }
                 ]
             } else {
                 return acc
             }
         } else {
-            return [...acc, cartItem]
+            return [...acc, item]
         }
         
     }, [] as ICartItem[])

@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { Component, createContext } from 'react'
 import { Attribute, Currency, ICartItem, Product } from './types';
-import { addToCartItems, removeFromCartItems } from './utils';
+import { addToCartItems, isReallyEqual, reduceCartItemQty } from './utils';
 
 interface State {
     currency: Currency;
@@ -19,7 +19,7 @@ interface IStateContext {
     state: State;
     setCurrency: ((currency: Currency) => void) | null;
     addToCart: ((product: Product, selectedAttributes: ICartItem['selectedAttributes']) => void) | null;
-    removeFromCart: ((product: Product) => void) | null;
+    reduceCartItemQty: ((cartItem: ICartItem) => void) | null;
     selectAttribute: ((params: SelectAttributeParams) => void) | null;
 }
 
@@ -38,7 +38,7 @@ export const StateContext = createContext<IStateContext>({
     state: initialState,
     setCurrency: null,
     addToCart: null,
-    removeFromCart: null,
+    reduceCartItemQty: null,
     selectAttribute: null
 });
 
@@ -51,27 +51,48 @@ export class StateProvider extends Component<{}, State> {
         })
     }
 
-    removeFromCart = (product: Product) => {
+    reduceCartItemQty = (cartItem: ICartItem) => {
         this.setState({
-            cartItems: removeFromCartItems(product, this.state.cartItems)
+            cartItems: reduceCartItemQty(cartItem, this.state.cartItems)
         })
     }
 
     selectAttribute = ({ attribute, cartItem, index }: SelectAttributeParams) => {
+        cartItem.selectedAttributes[index] = attribute
+
         this.setState(prevState => {
-            cartItem.selectedAttributes[index] = attribute
-
             return {
-                cartItems: prevState.cartItems.map(c => {
-                    if(cartItem.product.id === c.product.id) {
-                        return {
-                            ...c,
-                            selectedAttributes: cartItem.selectedAttributes
-                        }
-                    }
+                cartItems: prevState.cartItems.reduce((acc, item) => {
+                    if(
+                        cartItem.product.id === item.product.id && 
+                        isReallyEqual(item.selectedAttributes, cartItem.selectedAttributes)
+                    ) {
+                        const cartItemAlreadyExists = acc.find(cartItem => (
+                            cartItem.product.id === item.product.id &&
+                            isReallyEqual(cartItem.selectedAttributes, item.selectedAttributes)
+                        ))
 
-                    return c;
-                })
+                        if (cartItemAlreadyExists) {
+                            acc[acc.indexOf(cartItemAlreadyExists)] = { 
+                                ...cartItemAlreadyExists,
+                                quantity: item.quantity + cartItemAlreadyExists.quantity
+                            }
+                            return [
+                                ...acc,
+                            ]
+                        } else {
+                            return [
+                                ...acc,
+                                {
+                                    ...item,
+                                    selectedAttributes: cartItem.selectedAttributes
+                                }
+                            ]
+                        }
+
+                    }
+                    return [...acc, item]
+                }, [] as ICartItem[])
             }
         })
     }
@@ -87,7 +108,7 @@ export class StateProvider extends Component<{}, State> {
                 state: this.state, 
                 setCurrency: setCurrency,
                 addToCart: this.addToCart,
-                removeFromCart: this.removeFromCart,
+                reduceCartItemQty: this.reduceCartItemQty,
                 selectAttribute: this.selectAttribute
             }}>
                 {this.props.children}

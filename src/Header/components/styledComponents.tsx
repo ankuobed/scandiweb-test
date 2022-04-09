@@ -9,7 +9,7 @@ export const HeaderWrapper = styled(Flex)(({ theme }) => ({
     backgroundColor: theme.BACKGROUND
 }))
 
-export const NavItem = styled(Link)<{ active?: boolean }>(({ theme, active }) => ({
+export const NavItem = styled(Link)<{ active: boolean }>(({ theme, active }) => ({
     color: active ? theme.PRIMARY : theme.SECONDARY,
     padding: 18,
     borderBottom: active ? `1px solid ${theme.PRIMARY}` : undefined,

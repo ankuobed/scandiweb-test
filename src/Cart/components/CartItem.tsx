@@ -34,8 +34,8 @@ export default class CartItem extends Component<Props> {
         )
     }
 
-    removeFromCart = () => {
-        this.context.removeFromCart(this.props.cartItem.product)
+    reduceCartItemQty = () => {
+        this.context.reduceCartItemQty(this.props.cartItem)
     }
 
     selectAttribute = (attribute, index) => {
@@ -100,7 +100,7 @@ export default class CartItem extends Component<Props> {
                     <DecreaseButton 
                         alt="decrease" 
                         src={minusIcon}
-                        onClick={this.removeFromCart}
+                        onClick={this.reduceCartItemQty}
                         sm={variant === 'small'}  
                     />
                 </Flex>

@@ -31,7 +31,7 @@ export default class ProductDetails extends Component<{}, State> {
     product: null as never as Product,
     selectedAttributes: [] as ICartItem['selectedAttributes']
   }
-
+  
   static contextType = StateContext;
 
   client = this.context.apolloClient
@@ -75,6 +75,7 @@ export default class ProductDetails extends Component<{}, State> {
                   {
                     this.state.product.gallery.slice(1).map(image => (
                       <SubImage
+                        key={image}
                         alt={this.state?.product?.name}
                         src={image}
                       />

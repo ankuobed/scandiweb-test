@@ -22,7 +22,7 @@ export class Attributes extends Component<Props> {
         } = this.props
 
         return isNotEmpty(attributes) && attributes.map((attr, index) => (
-            <div>
+            <div key={attr.id}>
                 {
                     labels &&
                     <Label>{attr.name.toUpperCase()}:</Label>

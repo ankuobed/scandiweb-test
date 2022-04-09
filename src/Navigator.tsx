@@ -44,7 +44,8 @@ export default class Navigator extends Component<{}, State> {
             {
                 isNotEmpty(this.state.categories) &&
                 this.state.categories.slice(1).map(category => (
-                <Route 
+                <Route
+                    key={category.name}
                     path={`/${category.name}`} 
                     element={<ProductList category={category} />} 
                 />

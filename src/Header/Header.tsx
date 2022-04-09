@@ -50,7 +50,8 @@ export default class Header extends Component<Props, State> {
               const route = name === 'all'? '/' : `/${name}`
 
               return (
-                <NavItem 
+                <NavItem
+                  key={name}
                   to={route}
                   active={this.state.currentPage === route}
                   onClick={() => this.setState({ currentPage: route })}
