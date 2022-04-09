@@ -13,6 +13,8 @@ import {
     Image, 
     IncreaseButton, 
     Name, 
+    NextImageButton, 
+    PreviousImageButton, 
     Price, 
     Quantity 
 } from './styledComponents'
@@ -25,6 +27,10 @@ interface Props {
 }
 
 export default class CartItem extends Component<Props> {
+    state = {
+        currentImage: this.props.cartItem.product.gallery[0]
+    }
+
     static contextType = StateContext;
 
     addToCart = () => {
@@ -44,6 +50,26 @@ export default class CartItem extends Component<Props> {
             cartItem: this.props.cartItem,
             index
         })
+    }
+
+    previousImage = () => {
+        const gallery = this.props.cartItem.product.gallery
+        const index = gallery.indexOf(this.state.currentImage)
+        if(index > 0) {
+            this.setState({
+                currentImage: gallery[index - 1]
+            })
+        }
+    }
+
+    nextImage = () => {
+        const gallery = this.props.cartItem.product.gallery
+        const index = gallery.indexOf(this.state.currentImage)
+        if(index < gallery.length - 1) {
+            this.setState({
+                currentImage: gallery[index + 1]
+            })
+        }
     }
 
     render() {
@@ -104,7 +130,21 @@ export default class CartItem extends Component<Props> {
                         sm={variant === 'small'}  
                     />
                 </Flex>
-                <Image alt={product.name} src={product.gallery[0]} sm={variant === 'small'} />
+                <Flex>
+                    {
+                        variant === 'default' &&
+                        <PreviousImageButton onClick={this.previousImage} />
+                    }
+                    <Image 
+                        alt={product.name} 
+                        src={this.state.currentImage} 
+                        sm={variant === 'small'} 
+                    />
+                    {
+                        variant === 'default' &&
+                        <NextImageButton onClick={this.nextImage} />
+                    }
+                </Flex>
             </Flex>
         </Flex>
         )

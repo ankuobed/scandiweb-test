@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import cart from '../../assets/images/cart.svg'
+import chevronLeft from '../../assets/images/chevron-left.svg'
+import chevronRight from '../../assets/images/chevron-right.svg'
 
 export const CartIcon = styled(props => <img src={cart} alt="Cart" {...props} />)({
     width: 23
@@ -57,6 +59,28 @@ export const Image = styled.img<{ sm: boolean; }>(({ sm }) => ({
     height: sm ? 130 : 170,
     objectFit: 'contain'
 }))
+
+export const PreviousImageButton = styled(
+    props => <img alt="previous" src={chevronLeft} {...props} />
+)({
+    width: 8.5,
+    marginRight: -37,
+    zIndex: 1,
+    cursor: 'pointer',
+    marginLeft: 15,
+    padding: 8,
+})
+
+export const NextImageButton = styled(
+    props => <img alt="previous" src={chevronRight} {...props} />
+)({
+    width: 8.5,
+    marginLeft: -37,
+    zIndex: 1,
+    cursor: 'pointer',
+    marginRight: 15,
+    padding: 8
+})
 
 export const IncreaseButton = styled.img<{ sm: boolean; }>(({ sm }) => ({
     width: sm ? 25 : 32,

@@ -6,7 +6,8 @@ export const HeaderWrapper = styled(Flex)(({ theme }) => ({
     padding: 10,
     position: 'sticky',
     top: 0,
-    backgroundColor: theme.BACKGROUND
+    backgroundColor: theme.BACKGROUND,
+    zIndex: 2,
 }))
 
 export const NavItem = styled(Link)<{ active: boolean }>(({ theme, active }) => ({
