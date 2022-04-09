@@ -42,18 +42,21 @@ export default class ProductItem extends Component<Props> {
                 <img
                     src={this.product.gallery[0]} 
                     alt={this.product.name} 
-                    style={{ width: 330, height: 335, }}
+                    style={{ width: 330, height: 335, objectFit: 'contain' }}
                 />
             </Link>
             
             <Flex justify="flex-end" style={{ width: '100%' }}>
-                <AddToCartButtonRounded onClick={this.addToCart}>
-                    <img
-                        src={cartImage}
-                        alt="add to cart"
-                        style={{ width: 24 }}
-                    />
-                </AddToCartButtonRounded>
+                {
+                    this.product.inStock && 
+                    <AddToCartButtonRounded onClick={this.addToCart}>
+                        <img
+                            src={cartImage}
+                            alt="add to cart"
+                            style={{ width: 24 }}
+                        />
+                    </AddToCartButtonRounded>
+                }
             </Flex>
 
             <Link 

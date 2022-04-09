@@ -12,7 +12,13 @@ export default class ProductsList extends Component<Props> {
     const { category } = this.props
 
     return (
-      <div key={category?.name} style={{ marginTop: 70, marginBottom: 100 }}>
+      <div 
+        key={category?.name} 
+        style={{ 
+          marginTop: 70, 
+          marginBottom: 100, 
+        }}
+      >
         {
           category?.name &&
           <p style={{ fontSize: 42 }}>{capitalize(category.name)}</p>

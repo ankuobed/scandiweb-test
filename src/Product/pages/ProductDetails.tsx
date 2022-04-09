@@ -23,13 +23,15 @@ import { getProduct } from '../graphqlQueries';
 
 interface State {
   product: null | Product;
-  selectedAttributes: ICartItem['selectedAttributes']
+  selectedAttributes: ICartItem['selectedAttributes'],
+  currentImage: string;
 }
 
 export default class ProductDetails extends Component<{}, State> {
   state = {
     product: null as never as Product,
-    selectedAttributes: [] as ICartItem['selectedAttributes']
+    selectedAttributes: [] as ICartItem['selectedAttributes'],
+    currentImage: ''
   }
   
   static contextType = StateContext;
@@ -42,7 +44,8 @@ export default class ProductDetails extends Component<{}, State> {
       const result = await getProduct(this.client, this.id);
       this.setState({ 
         ...result, 
-        selectedAttributes: result.product.attributes.map(attr => attr.items[0])
+        selectedAttributes: result.product.attributes.map(attr => attr.items[0]),
+        currentImage: result.product.gallery[0]
       })
     })();
   }
@@ -73,11 +76,12 @@ export default class ProductDetails extends Component<{}, State> {
                 this.state.product.gallery.length > 1 &&
                 <SubImages>
                   {
-                    this.state.product.gallery.slice(1).map(image => (
+                    this.state.product.gallery.map(image => (
                       <SubImage
                         key={image}
                         alt={this.state?.product?.name}
                         src={image}
+                        onClick={() => this.setState({ currentImage: image })}
                       />
                     ))
                   }
@@ -85,7 +89,7 @@ export default class ProductDetails extends Component<{}, State> {
               }
               <MainImage
                 alt={this.state?.product?.name}
-                src={this.state?.product?.gallery[0]}
+                src={this.state?.currentImage}
               />
             </Flex>
             
@@ -103,7 +107,12 @@ export default class ProductDetails extends Component<{}, State> {
               <Label>PRICE:</Label>
               <Price>{formatPrice(price)}</Price>
   
-              <AddToCartButton onClick={this.addToCart}>
+              <AddToCartButton 
+                onClick={
+                  this.state.product.inStock ? 
+                  this.addToCart : undefined
+                }
+              >
                 ADD TO CART
               </AddToCartButton>
 
