@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
+import cartImage from '../../assets/images/cart-white.svg'
+
 
 export const ProductsWrapper = styled.div({
     display: 'grid',
@@ -35,7 +38,13 @@ export const ProductPrice = styled.span({
     fontSize: 18
 })
 
-export const AddToCartButtonRounded = styled.button(({ theme }) => ({
+export const AddToCartImage = styled(() => <img src={cartImage} alt="add to cart" />)({
+    width: 24
+})
+
+export const AddToCartButtonRounded = styled(
+    props => <button {...props}><AddToCartImage /></button>
+)(({ theme }) => ({
     backgroundColor: theme.PRIMARY,
     display: 'none',
     justifyContent: 'center',
@@ -103,4 +112,30 @@ export const SubImage = styled.img({
     width: 70,
     maxHeight: 100,
     cursor: 'pointer',
+})
+
+export const ProductItemImage = styled.img({
+    width: 330, 
+    height: 335, 
+    objectFit: 'contain'
+})
+
+export const BottomSection = styled(Link)(({ theme }) => ({
+    textAlign: 'left', 
+    width: '100%', 
+    textDecoration: 'none',
+    color: theme.SECONDARY
+}))
+
+export const ProductDetailsContent = styled.div({
+    width: '40%'
+})
+
+export const ProductListWrapper = styled.div({
+    marginTop: 70, 
+    marginBottom: 100,
+})
+
+export const CategoryName = styled.p({
+    fontSize: 42
 })

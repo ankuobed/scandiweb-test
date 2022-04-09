@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { capitalize, Category } from '../../_shared'
 import ProductItem from '../components/ProductItem';
-import { ProductsWrapper } from '../components/styledComponents';
+import { CategoryName, ProductListWrapper, ProductsWrapper } from '../components/styledComponents';
 
 interface Props {
   category: Category;
@@ -12,16 +12,10 @@ export default class ProductsList extends Component<Props> {
     const { category } = this.props
 
     return (
-      <div 
-        key={category?.name} 
-        style={{ 
-          marginTop: 70, 
-          marginBottom: 100, 
-        }}
-      >
+      <ProductListWrapper>
         {
           category?.name &&
-          <p style={{ fontSize: 42 }}>{capitalize(category.name)}</p>
+          <CategoryName>{capitalize(category.name)}</CategoryName>
         }
         <ProductsWrapper>
           {
@@ -33,7 +27,7 @@ export default class ProductsList extends Component<Props> {
             )
           }
         </ProductsWrapper>
-      </div>
+      </ProductListWrapper>
     )
   }
 }

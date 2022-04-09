@@ -1,7 +1,7 @@
 import { Component } from 'react'
-import { Currency, Flex } from '../../_shared'
+import { Currency } from '../../_shared'
 import chevronDown from '../../assets/images/chevron-down.svg'
-import { ChevronDown, CurrencySymbol } from './styledComponents';
+import { ChevronDown, CurrencySwitcherButtonWrapper, CurrencySymbol } from './styledComponents';
 
 interface Props {
     currency: Currency;
@@ -12,7 +12,7 @@ interface Props {
 export default class CurrencySwitcherButton extends Component<Props> {
   render() {
     return (
-        <Flex style={{ cursor: 'pointer' }} { ...this.props }>
+        <CurrencySwitcherButtonWrapper {...this.props}>
             <CurrencySymbol>
                 {this.props.currency.symbol} 
             </CurrencySymbol>
@@ -21,7 +21,7 @@ export default class CurrencySwitcherButton extends Component<Props> {
                 alt="Drop down"
                 up={this.props.open}
             />
-        </Flex>
+        </CurrencySwitcherButtonWrapper>
     )
   }
 }

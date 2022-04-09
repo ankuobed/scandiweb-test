@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Flex } from "../../_shared";
+import logo from '../../assets/images/logo.svg'
+
 
 export const HeaderWrapper = styled(Flex)(({ theme }) => ({
     padding: 10,
@@ -43,4 +45,17 @@ export const ChevronDown = styled.img<{ up: boolean; }>(({ up }) => ({
 export const CurrencySymbol = styled.span({
     fontSize: 19,
     marginRight: 5
+})
+
+export const CurrencySwitcherButtonWrapper = styled(Flex)({
+    cursor: 'pointer'
+})
+
+export const Logo = styled(() => <img src={logo} alt="Logo"/>)({
+    width: 32,
+    height: 30
+})
+
+export const RightNav = styled(Flex)({
+    width: 75
 })

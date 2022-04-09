@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import { Currency, Flex, isNotEmpty, StateContext } from '../_shared'
-import { HeaderWrapper, NavItem } from './components/styledComponents'
-import logo from '../assets/images/logo.svg'
+import { HeaderWrapper, Logo, NavItem, RightNav } from './components/styledComponents'
 import { CartButton, CartDialog } from '../Cart'
 import { getCurrencies } from './graphqlQueries'
 import CurrencySwitcher from './components/CurrencySwitcher'
@@ -62,9 +61,9 @@ export default class Header extends Component<Props, State> {
           }
         </Flex>
         
-        <img src={logo} alt="Logo" style={{ width: 32, height: 30 }} />
+        <Logo />
 
-        <Flex style={{ width: 75 }} justify="space-between">
+        <RightNav justify="space-between">
           <>
             <CurrencySwitcherButton 
               onClick={() => {
@@ -93,7 +92,7 @@ export default class Header extends Component<Props, State> {
               onClose={() => this.setState({  cartDialogOpen: false })}
             />
           </>
-        </Flex>
+        </RightNav>
       </HeaderWrapper>
     )
   }

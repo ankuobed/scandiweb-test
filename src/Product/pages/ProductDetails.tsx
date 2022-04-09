@@ -17,7 +17,8 @@ import {
   Name, 
   MainImage, 
   SubImages, 
-  SubImage 
+  SubImage, 
+  ProductDetailsContent
 } from '../components/styledComponents';
 import { getProduct } from '../graphqlQueries';
 
@@ -70,7 +71,7 @@ export default class ProductDetails extends Component<{}, State> {
       <div>
         {
           this.state?.product && 
-          <Flex style={{ paddingTop: 50 }} justify="space-between" align="flex-start">
+          <Flex pt={50} justify="space-between" align="flex-start">
             <Flex align="flex-start">
               {
                 this.state.product.gallery.length > 1 &&
@@ -93,7 +94,7 @@ export default class ProductDetails extends Component<{}, State> {
               />
             </Flex>
             
-            <div style={{ width: '40%' }}>
+            <ProductDetailsContent>
               <Brand>{this.state?.product?.brand}</Brand>
               <Name>{this.state?.product?.name}</Name>
 
@@ -117,7 +118,7 @@ export default class ProductDetails extends Component<{}, State> {
               </AddToCartButton>
 
               <Description html={this.state?.product?.description} />
-           </div>
+           </ProductDetailsContent>
           </Flex>
         }
       </div>

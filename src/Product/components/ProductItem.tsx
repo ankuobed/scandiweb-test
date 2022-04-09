@@ -1,6 +1,5 @@
 import { Component } from 'react'
 import { 
-    constants, 
     Flex, 
     formatPrice, 
     getPrice, 
@@ -9,11 +8,12 @@ import {
 } from '../../_shared'
 import { 
     AddToCartButtonRounded, 
+    BottomSection, 
+    ProductItemImage, 
     ProductItemWrapper, 
     ProductName, 
     ProductPrice 
 } from './styledComponents';
-import cartImage from '../../assets/images/cart-white.svg'
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -39,38 +39,23 @@ export default class ProductItem extends Component<Props> {
         return (
         <ProductItemWrapper>
             <Link to={`/product/${this.product.id}`}>
-                <img
+                <ProductItemImage
                     src={this.product.gallery[0]} 
                     alt={this.product.name} 
-                    style={{ width: 330, height: 335, objectFit: 'contain' }}
                 />
             </Link>
             
             <Flex justify="flex-end" style={{ width: '100%' }}>
                 {
                     this.product.inStock && 
-                    <AddToCartButtonRounded onClick={this.addToCart}>
-                        <img
-                            src={cartImage}
-                            alt="add to cart"
-                            style={{ width: 24 }}
-                        />
-                    </AddToCartButtonRounded>
+                    <AddToCartButtonRounded onClick={this.addToCart} />
                 }
             </Flex>
 
-            <Link 
-                to={`/product/${this.product.id}`} 
-                style={{ 
-                    textAlign: 'left', 
-                    width: '100%', 
-                    textDecoration: 'none',
-                    color: constants.theme.SECONDARY
-                }}
-            >
+            <BottomSection to={`/product/${this.product.id}`}>
                 <ProductName>{this.product.name}</ProductName>
                 <ProductPrice>{formatPrice(price)}</ProductPrice>
-            </Link>
+            </BottomSection>
         </ProductItemWrapper>
         )
     }

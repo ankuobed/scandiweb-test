@@ -3,6 +3,7 @@ import styled from "styled-components"
 import cart from '../../assets/images/cart.svg'
 import chevronLeft from '../../assets/images/chevron-left.svg'
 import chevronRight from '../../assets/images/chevron-right.svg'
+import { Flex } from "../../_shared"
 
 export const CartIcon = styled(props => <img src={cart} alt="Cart" {...props} />)({
     width: 23
@@ -122,4 +123,12 @@ export const CheckoutButton = styled.button(({ theme }) => ({
     ':hover': {
         backgroundColor: '#4eac67'
     }
+}))
+
+export const CartButtonWrapper = styled(Flex)({
+    cursor: 'pointer'
+})
+
+export const CartItemSection = styled(Flex)<{ variant: 'default' | 'small'; }>(({ variant }) => ({
+    minHeight: variant === 'default' ? 170 : 130
 }))

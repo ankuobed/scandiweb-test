@@ -9,6 +9,7 @@ import {
 } from '../../_shared'
 import { 
     Brand, 
+    CartItemSection, 
     DecreaseButton, 
     Image, 
     IncreaseButton, 
@@ -89,11 +90,11 @@ export default class CartItem extends Component<Props> {
             align="flex-start" 
             mt={variant === 'small' ? 45 : undefined}
         >
-            <Flex 
+            <CartItemSection 
                 direction="column" 
                 justify="space-between" 
-                align="flex-start" 
-                style={{ minHeight: variant === 'default' ? 170 : 130 }}
+                align="flex-start"
+                variant={variant}
             >
                 <div>
                     <Brand sm={variant === 'small'}>{product.brand}</Brand>
@@ -107,14 +108,14 @@ export default class CartItem extends Component<Props> {
                     onSelect={this.selectAttribute}
                     variant={variant}
                 />
-            </Flex>
+            </CartItemSection>
 
             <Flex>
-                <Flex 
-                    style={{ height: variant === 'default' ? 170 : 130 }} 
+                <CartItemSection 
                     direction="column" 
                     justify="space-between"
                     mr={12}
+                    variant={variant}
                 >
                     <IncreaseButton 
                         alt="increase" 
@@ -129,7 +130,7 @@ export default class CartItem extends Component<Props> {
                         onClick={this.reduceCartItemQty}
                         sm={variant === 'small'}  
                     />
-                </Flex>
+                </CartItemSection>
                 <Flex>
                     {
                         variant === 'default' &&
