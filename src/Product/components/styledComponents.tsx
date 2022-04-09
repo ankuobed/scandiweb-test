@@ -4,7 +4,8 @@ export const ProductsWrapper = styled.div({
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 360px)',
     columnGap: 45,
-    rowGap: 70
+    rowGap: 70,
+    margin: '0 auto',
 })
 
 export const ProductItemWrapper = styled.div(({ theme }) => ({
@@ -90,7 +91,6 @@ export const Name = styled.p({
 
 export const MainImage = styled.img({
     width: 500,
-    maxHeight: 500
 })
 
 export const SubImages = styled.div({
@@ -101,5 +101,6 @@ export const SubImage = styled.img({
     display: 'block',
     marginBottom: 30,
     width: 70,
-    maxHeight: 100
+    maxHeight: 100,
+    cursor: 'pointer',
 })
