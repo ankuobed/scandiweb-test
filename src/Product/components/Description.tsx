@@ -2,17 +2,17 @@ import { Component, createRef } from 'react'
 import { DescriptionText } from './styledComponents'
 
 export default class Description extends Component<{ html: string }> {
-    divRef = createRef<HTMLParagraphElement>()
+    ref = createRef<HTMLParagraphElement>()
 
     componentDidMount() {
-        if(this.divRef.current) {
-            this.divRef.current.innerHTML = this.props.html
+        if(this.ref.current) {
+            this.ref.current.innerHTML = this.props.html
         }
     }
 
     render() {
         return (
-            <DescriptionText ref={this.divRef} />
+            <DescriptionText ref={this.ref} />
         )
     }
 }
