@@ -28,7 +28,7 @@ export default class CartDialogBox extends Component<Props> {
               {
                 cartItems.map((cartItem: ICartItem) => 
                   <CartItem 
-                    key={cartItem.product.id} 
+                    key={`${cartItem.product.id}${JSON.stringify(cartItem.selectedAttributes)}`} 
                     cartItem={cartItem}
                     variant="small"
                   />

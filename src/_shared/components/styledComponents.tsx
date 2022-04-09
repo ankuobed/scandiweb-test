@@ -44,7 +44,7 @@ export const Flex = styled.div<IFlex>(
 	})
 );
 
-export const OverlayWrapper = styled.div<{ 
+export const Overlay = styled.div<{ 
     variant?: 'translucent' | 'transparent'; 
     visible: boolean;
 }>(({ variant, visible  }) => ({
