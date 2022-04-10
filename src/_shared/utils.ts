@@ -86,3 +86,49 @@ export const isNotEmpty = (array: Array<any>) => array?.length > 0
 export const formatCurrency = (currency: Currency) => {
     return  `${currency.symbol} ${currency.label}`
 }
+
+export const saveToLocalStorage = (key: string, value: any) => {
+    localStorage.setItem(key, JSON.stringify(value))
+}
+
+export const getFromLocalStorage = (key: string) => {
+    if (localStorage.getItem(key)) {
+        return JSON.parse(localStorage.getItem(key) as string)
+    } else {
+        return null
+    }
+}
+
+export const selectCartItemAttribute = (cartItem: ICartItem, cartItems: ICartItem[]) => {
+    return cartItems.reduce((acc, item) => {
+        if(
+            cartItem.product.id === item.product.id && 
+            isReallyEqual(item.selectedAttributes, cartItem.selectedAttributes)
+        ) {
+            const cartItemAlreadyExists = acc.find(cartItem => (
+                cartItem.product.id === item.product.id &&
+                isReallyEqual(cartItem.selectedAttributes, item.selectedAttributes)
+            ))
+
+            if (cartItemAlreadyExists) {
+                acc[acc.indexOf(cartItemAlreadyExists)] = { 
+                    ...cartItemAlreadyExists,
+                    quantity: item.quantity + cartItemAlreadyExists.quantity
+                }
+                return [
+                    ...acc,
+                ]
+            } else {
+                return [
+                    ...acc,
+                    {
+                        ...item,
+                        selectedAttributes: cartItem.selectedAttributes
+                    }
+                ]
+            }
+
+        }
+        return [...acc, item]
+    }, [] as ICartItem[])
+}

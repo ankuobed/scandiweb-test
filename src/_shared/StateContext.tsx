@@ -1,14 +1,21 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { Component, createContext } from 'react'
 import { Attribute, Currency, ICartItem, Product } from './types';
-import { addToCartItems, isReallyEqual, reduceCartItemQty } from './utils';
+import { 
+    addToCartItems, 
+    getFromLocalStorage, 
+    isReallyEqual, 
+    reduceCartItemQty, 
+    saveToLocalStorage, 
+    selectCartItemAttribute 
+} from './utils';
 
 interface State {
     currency: Currency;
     cartItems: ICartItem[];
 }
 
-interface SelectAttributeParams {
+interface SelectedAttributeParams {
     attribute: Attribute;
     cartItem: ICartItem;
     index: number;
@@ -20,7 +27,7 @@ interface IStateContext {
     setCurrency: ((currency: Currency) => void) | null;
     addToCart: ((product: Product, selectedAttributes: ICartItem['selectedAttributes']) => void) | null;
     reduceCartItemQty: ((cartItem: ICartItem) => void) | null;
-    selectAttribute: ((params: SelectAttributeParams) => void) | null;
+    selectAttribute: ((params: SelectedAttributeParams) => void) | null;
 }
 
 const client = new ApolloClient({
@@ -45,6 +52,10 @@ export const StateContext = createContext<IStateContext>({
 export class StateProvider extends Component<{}, State> {
     state = initialState
 
+    setCurrency = (currency: Currency) => {
+        this.setState({ currency });
+    }
+
     addToCart = (product: Product, selectedAttributes: ICartItem['selectedAttributes']) => {
         this.setState({
             cartItems: addToCartItems(product, this.state.cartItems, selectedAttributes)
@@ -57,56 +68,35 @@ export class StateProvider extends Component<{}, State> {
         })
     }
 
-    selectAttribute = ({ attribute, cartItem, index }: SelectAttributeParams) => {
+    selectAttribute = ({ attribute, cartItem, index }: SelectedAttributeParams) => {
         cartItem.selectedAttributes[index] = attribute
 
         this.setState(prevState => {
             return {
-                cartItems: prevState.cartItems.reduce((acc, item) => {
-                    if(
-                        cartItem.product.id === item.product.id && 
-                        isReallyEqual(item.selectedAttributes, cartItem.selectedAttributes)
-                    ) {
-                        const cartItemAlreadyExists = acc.find(cartItem => (
-                            cartItem.product.id === item.product.id &&
-                            isReallyEqual(cartItem.selectedAttributes, item.selectedAttributes)
-                        ))
-
-                        if (cartItemAlreadyExists) {
-                            acc[acc.indexOf(cartItemAlreadyExists)] = { 
-                                ...cartItemAlreadyExists,
-                                quantity: item.quantity + cartItemAlreadyExists.quantity
-                            }
-                            return [
-                                ...acc,
-                            ]
-                        } else {
-                            return [
-                                ...acc,
-                                {
-                                    ...item,
-                                    selectedAttributes: cartItem.selectedAttributes
-                                }
-                            ]
-                        }
-
-                    }
-                    return [...acc, item]
-                }, [] as ICartItem[])
+                cartItems: selectCartItemAttribute(cartItem, prevState.cartItems)
             }
         })
     }
+
+    componentDidMount() {
+        const storedCartItems = getFromLocalStorage('cartItems')
+        this.setState({ cartItems: storedCartItems || [] })
+    }
+
+    componentDidUpdate(_, prevState) {
+        const storedCartItems = getFromLocalStorage('cartItems')
+        if(!isReallyEqual(prevState?.state?.cartItems, storedCartItems)) {
+            saveToLocalStorage('cartItems', this.state.cartItems)
+        }
+    }
     
     render() {
-        const setCurrency = (currency: Currency) => {
-            this.setState({ currency });
-        }
 
         return (
             <StateContext.Provider value={{
                 apolloClient: client,
                 state: this.state, 
-                setCurrency: setCurrency,
+                setCurrency: this.setCurrency,
                 addToCart: this.addToCart,
                 reduceCartItemQty: this.reduceCartItemQty,
                 selectAttribute: this.selectAttribute
