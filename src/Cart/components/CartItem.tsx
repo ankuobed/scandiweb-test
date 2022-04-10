@@ -82,7 +82,10 @@ export default class CartItem extends Component<Props> {
                 selectedAttributes 
             } 
         } = this.props
+
         const price = getPrice(product.prices, this.context.state.currency)
+
+        const showImageSwitchButton = variant === 'default' && product.gallery.length > 1
 
         return (
         <Flex 
@@ -133,7 +136,7 @@ export default class CartItem extends Component<Props> {
                 </CartItemSection>
                 <Flex>
                     {
-                        variant === 'default' && product.gallery.length > 1 &&
+                        showImageSwitchButton &&
                         <PreviousImageButton onClick={this.previousImage} />
                     }
                     <Image 
@@ -142,7 +145,7 @@ export default class CartItem extends Component<Props> {
                         sm={variant === 'small'} 
                     />
                     {
-                        variant === 'default' && product.gallery.length > 1 &&
+                        showImageSwitchButton &&
                         <NextImageButton onClick={this.nextImage} />
                     }
                 </Flex>
