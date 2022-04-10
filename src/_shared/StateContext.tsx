@@ -79,14 +79,14 @@ export class StateProvider extends Component<{}, State> {
     }
 
     componentDidMount() {
-        const storedCartItems = getFromLocalStorage('cartItems')
-        this.setState({ cartItems: storedCartItems || [] })
+        const persistedState = getFromLocalStorage('state') || initialState
+        this.setState({ ...persistedState })
     }
 
     componentDidUpdate(_, prevState) {
-        const storedCartItems = getFromLocalStorage('cartItems')
-        if(!isReallyEqual(prevState?.state?.cartItems, storedCartItems)) {
-            saveToLocalStorage('cartItems', this.state.cartItems)
+        const persistedState = getFromLocalStorage('state')
+        if(!isReallyEqual(prevState?.state, persistedState)) {
+            saveToLocalStorage('state', this.state)
         }
     }
     
