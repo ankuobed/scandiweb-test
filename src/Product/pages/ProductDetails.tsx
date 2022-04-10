@@ -38,11 +38,11 @@ export default class ProductDetails extends Component<{}, State> {
   static contextType = StateContext;
 
   client = this.context.apolloClient
-  id = window.location.href.split('/').pop() as string
+  productId = window.location.href.split('/').pop() as string
 
   componentDidMount() {
     (async () => {
-      const result = await getProduct(this.client, this.id);
+      const result = await getProduct(this.client, this.productId);
       this.setState({ 
         ...result, 
         selectedAttributes: result.product.attributes.map(attr => attr.items[0]),
@@ -55,11 +55,16 @@ export default class ProductDetails extends Component<{}, State> {
     this.context.addToCart(this.state.product, this.state.selectedAttributes)
   }
 
-  selectAttribute = (attribute, index) => {
+  selectAttribute = (newAttribute, index) => {
     this.setState(prevState => {
-      prevState.selectedAttributes[index] = attribute
       return {
-        selectedAttributes: prevState.selectedAttributes
+        selectedAttributes: prevState.selectedAttributes.map((attribute, i) => {
+          if(i === index) {
+            return newAttribute
+          } else {
+            return attribute
+          }
+        })
       }
     })
   }
