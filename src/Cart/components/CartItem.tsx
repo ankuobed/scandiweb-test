@@ -11,16 +11,14 @@ import {
     Brand, 
     CartItemSection, 
     DecreaseButton, 
-    Image, 
     IncreaseButton, 
-    Name, 
-    NextImageButton, 
-    PreviousImageButton, 
+    Name,  
     Price, 
     Quantity 
 } from './styledComponents'
 import plusIcon from '../../assets/images/plus.svg'
 import minusIcon from '../../assets/images/minus.svg'
+import CartItemImage from './CartItemImage'
 
 interface Props {
     cartItem: ICartItem;
@@ -28,10 +26,6 @@ interface Props {
 }
 
 export default class CartItem extends Component<Props> {
-    state = {
-        currentImage: this.props.cartItem.product.gallery[0]
-    }
-
     static contextType = StateContext;
 
     addToCart = () => {
@@ -53,39 +47,17 @@ export default class CartItem extends Component<Props> {
         })
     }
 
-    previousImage = () => {
-        const gallery = this.props.cartItem.product.gallery
-        const index = gallery.indexOf(this.state.currentImage)
-        if(index > 0) {
-            this.setState({
-                currentImage: gallery[index - 1]
-            })
-        }
-    }
-
-    nextImage = () => {
-        const gallery = this.props.cartItem.product.gallery
-        const index = gallery.indexOf(this.state.currentImage)
-        if(index < gallery.length - 1) {
-            this.setState({
-                currentImage: gallery[index + 1]
-            })
-        }
-    }
-
     render() {
         const { 
             variant = 'default', 
             cartItem: { 
                 quantity, 
                 product, 
-                selectedAttributes 
+                selectedAttributes
             } 
         } = this.props
 
         const price = getPrice(product.prices, this.context.state.currency)
-
-        const showImageSwitchButton = variant === 'default' && product.gallery.length > 1
 
         return (
         <Flex 
@@ -134,21 +106,10 @@ export default class CartItem extends Component<Props> {
                         sm={variant === 'small'}  
                     />
                 </CartItemSection>
-                <Flex>
-                    {
-                        showImageSwitchButton &&
-                        <PreviousImageButton onClick={this.previousImage} />
-                    }
-                    <Image 
-                        alt={product.name} 
-                        src={this.state.currentImage} 
-                        sm={variant === 'small'} 
-                    />
-                    {
-                        showImageSwitchButton &&
-                        <NextImageButton onClick={this.nextImage} />
-                    }
-                </Flex>
+                <CartItemImage
+                    gallery={product.gallery}
+                    variant={variant}
+                />
             </Flex>
         </Flex>
         )
