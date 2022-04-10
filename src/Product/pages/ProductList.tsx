@@ -1,15 +1,43 @@
 import { Component } from 'react'
-import { capitalize, Category } from '../../_shared'
+import { capitalize, Category, StateContext } from '../../_shared'
 import ProductItem from '../components/ProductItem';
 import { CategoryName, ProductListWrapper, ProductsWrapper } from '../components/styledComponents';
+import { getCategory } from '../graphqlQueries';
 
-interface Props {
-  category: Category;
+interface State {
+  category: Category
 }
 
-export default class ProductsList extends Component<Props> {
+interface Props {
+  categoryName: string;
+}
+
+export default class ProductsList extends Component<Props, State> {
+  state = {
+    category: {} as Category,
+  }
+  
+  static contextType = StateContext
+  client = this.context.apolloClient
+
+  componentDidMount() {
+    (async () => {
+      const result = await getCategory(this.client, this.props.categoryName)
+      this.setState({ ...result })
+    })();
+  }
+
+  componentDidUpdate(prevProps) {
+    (async () => {
+      if(prevProps.categoryName !== this.props.categoryName) {
+        const result = await getCategory(this.client, this.props.categoryName)
+        this.setState({ ...result })
+      }
+    })();
+  }
+
   render() {
-    const { category } = this.props
+    const { category } = this.state
 
     return (
       <ProductListWrapper>

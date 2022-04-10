@@ -133,7 +133,7 @@ export default class CartItem extends Component<Props> {
                 </CartItemSection>
                 <Flex>
                     {
-                        variant === 'default' &&
+                        variant === 'default' && product.gallery.length > 1 &&
                         <PreviousImageButton onClick={this.previousImage} />
                     }
                     <Image 
@@ -142,7 +142,7 @@ export default class CartItem extends Component<Props> {
                         sm={variant === 'small'} 
                     />
                     {
-                        variant === 'default' &&
+                        variant === 'default' && product.gallery.length > 1 &&
                         <NextImageButton onClick={this.nextImage} />
                     }
                 </Flex>

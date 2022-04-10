@@ -81,7 +81,7 @@ export const capitalize = (text: string) => {
     return text?.charAt(0)?.toUpperCase() + text?.slice(1)
 }
 
-export const isNotEmpty = (array: Array<any>) => array.length > 0
+export const isNotEmpty = (array: Array<any>) => array?.length > 0
 
 export const formatCurrency = (currency: Currency) => {
     return  `${currency.symbol} ${currency.label}`

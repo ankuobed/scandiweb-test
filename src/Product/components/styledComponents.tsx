@@ -60,12 +60,12 @@ export const AddToCartButtonRounded = styled(
     cursor: 'pointer',
 }))
 
-export const AddToCartButton = styled.button(({ theme }) => ({
+export const AddToCartButton = styled.button<{ disabled: boolean }>(({ theme, disabled }) => ({
     backgroundColor: theme.PRIMARY,
     width: 292,
     height: 52,
     border: 'none',
-    cursor: 'pointer',
+    cursor: disabled ? undefined : 'pointer',
     color: '#ffffff',
     margin: '35px 0'
 }))

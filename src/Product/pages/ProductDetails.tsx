@@ -113,6 +113,7 @@ export default class ProductDetails extends Component<{}, State> {
                   this.state.product.inStock ? 
                   this.addToCart : undefined
                 }
+                disabled={!this.state.product.inStock}
               >
                 ADD TO CART
               </AddToCartButton>

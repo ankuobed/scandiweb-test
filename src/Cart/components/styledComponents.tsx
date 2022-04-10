@@ -56,7 +56,7 @@ export const Name = styled.p<{ sm: boolean; }>(({ sm }) => ({
 }))
 
 export const Image = styled.img<{ sm: boolean; }>(({ sm }) => ({
-    width: sm ? 100 : 140,
+    width: sm ? 100 : 145,
     height: sm ? 130 : 170,
     objectFit: 'contain'
 }))

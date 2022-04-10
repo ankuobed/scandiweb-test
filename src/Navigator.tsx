@@ -7,17 +7,17 @@ import {
 import './App.css'
 import { ProductList, ProductDetails } from './Product'
 import { Cart } from './Cart'
-import { Category, isNotEmpty, StateContext } from './_shared'
+import { isNotEmpty, StateContext } from './_shared'
 import Header from './Header';
-import { getCategories } from './Product/graphqlQueries'
+import { getCategoryNames } from './Product/graphqlQueries'
 
 interface State {
-  categories: Category[];
+  categoryNames: string[];
 }
 
 export default class Navigator extends Component<{}, State> {
   state = {
-    categories: [] as Category[],
+    categoryNames: [] as string[],
   }
   
   static contextType = StateContext
@@ -25,7 +25,7 @@ export default class Navigator extends Component<{}, State> {
   
   componentDidMount() {
     (async () => {
-      const result = await getCategories(this.client)
+      const result = await getCategoryNames(this.client)
       this.setState({ ...result })
     })();
   }
@@ -34,20 +34,16 @@ export default class Navigator extends Component<{}, State> {
     return (
         <BrowserRouter>
             <Header
-                categoryNames={this.state.categories.map(c => c.name)}
+                categoryNames={this.state.categoryNames}
             />
             <Routes>
-            <Route 
-                path="/" 
-                element={<ProductList category={this.state.categories[0]} />} 
-            />
             {
-                isNotEmpty(this.state.categories) &&
-                this.state.categories.slice(1).map(category => (
+                isNotEmpty(this.state.categoryNames) &&
+                this.state.categoryNames.map(name => (
                 <Route
-                    key={category.name}
-                    path={`/${category.name}`} 
-                    element={<ProductList category={category} />} 
+                    key={name}
+                    path={name === 'all' ? '/' : `/${name}`} 
+                    element={<ProductList categoryName={name} />} 
                 />
                 ))
             }

@@ -18,11 +18,13 @@ interface Props {
 }
 
 export default class Header extends Component<Props, State> {
+  initialRoute = `/${window.location.href.split('/').pop()}`
+
   state = {
     currencies: [],
     currencySwitcherOpen: false,
     cartDialogOpen: false,
-    currentPage: '/'
+    currentPage: this.initialRoute
   }
 
   static contextType = StateContext
@@ -30,13 +32,14 @@ export default class Header extends Component<Props, State> {
 
   componentDidMount() {
     (async () => {
-      const result = await getCurrencies(this.client);
-      this.setState(prevState => ({ ...prevState, ...result }))
+      const currencyData = await getCurrencies(this.client);
+      this.setState(prevState => ({ ...prevState, ...currencyData }))
     })();
   }
 
   render() {
     const currency = this.context.state.currency;
+
     const cartCount = this.context.state.cartItems.reduce(
       (acc, cartItem) => acc + cartItem.quantity, 0)
 
