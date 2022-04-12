@@ -1,24 +1,17 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { Component, createContext } from 'react'
-import { Attribute, Currency, ICartItem, Product } from './types';
+import { Currency, ICartItem, Product } from './types';
 import { 
     addToCartItems, 
     getFromLocalStorage, 
     isReallyEqual, 
     reduceCartItemQty, 
     saveToLocalStorage, 
-    selectCartItemAttribute 
 } from './utils';
 
 interface State {
     currency: Currency;
     cartItems: ICartItem[];
-}
-
-interface SelectedAttributeParams {
-    attribute: Attribute;
-    cartItem: ICartItem;
-    index: number;
 }
 
 interface IStateContext {
@@ -27,7 +20,6 @@ interface IStateContext {
     setCurrency: ((currency: Currency) => void) | null;
     addToCart: ((product: Product, selectedAttributes: ICartItem['selectedAttributes']) => void) | null;
     reduceCartItemQty: ((cartItem: ICartItem) => void) | null;
-    selectAttribute: ((params: SelectedAttributeParams) => void) | null;
 }
 
 const client = new ApolloClient({
@@ -45,8 +37,7 @@ export const StateContext = createContext<IStateContext>({
     state: initialState,
     setCurrency: null,
     addToCart: null,
-    reduceCartItemQty: null,
-    selectAttribute: null
+    reduceCartItemQty: null
 });
 
 export class StateProvider extends Component<{}, State> {
@@ -65,16 +56,6 @@ export class StateProvider extends Component<{}, State> {
     reduceCartItemQty = (cartItem: ICartItem) => {
         this.setState({
             cartItems: reduceCartItemQty(cartItem, this.state.cartItems)
-        })
-    }
-
-    selectAttribute = ({ attribute, cartItem, index }: SelectedAttributeParams) => {
-        cartItem.selectedAttributes[index] = attribute
-
-        this.setState(prevState => {
-            return {
-                cartItems: selectCartItemAttribute(cartItem, prevState.cartItems)
-            }
         })
     }
 
@@ -99,7 +80,6 @@ export class StateProvider extends Component<{}, State> {
                 setCurrency: this.setCurrency,
                 addToCart: this.addToCart,
                 reduceCartItemQty: this.reduceCartItemQty,
-                selectAttribute: this.selectAttribute
             }}>
                 {this.props.children}
             </StateContext.Provider>

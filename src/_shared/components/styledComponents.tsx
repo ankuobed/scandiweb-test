@@ -64,7 +64,6 @@ export const AttributeItem = styled.button<{ selected?: boolean; sm: boolean; }>
     color: selected ? sm ? undefined : theme.BACKGROUND : undefined,
     minWidth: sm ? 24 : 60,
     height: sm ? 24 : 42,
-    cursor: 'pointer',
     marginRight: 12,
 	fontSize: sm ? 14 : 16,
 }))
@@ -74,7 +73,6 @@ export const AttributeColor = styled.button<{ selected?: boolean; color: string;
     border: selected ? '2.5px solid #5e5e5e' : `1.5px solid ${theme.SECONDARY}`,
     minWidth: sm ? 30 : 60,
     height: sm ? 24: 42,
-    cursor: 'pointer',
     marginRight: 12,
 	fontSize: sm ? 14 : 16,
 	marginTop: sm ? 6 : undefined

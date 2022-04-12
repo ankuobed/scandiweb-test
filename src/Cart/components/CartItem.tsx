@@ -39,14 +39,6 @@ export default class CartItem extends Component<Props> {
         this.context.reduceCartItemQty(this.props.cartItem)
     }
 
-    selectAttribute = (attribute, index) => {
-        this.context.selectAttribute({
-            attribute,
-            cartItem: this.props.cartItem,
-            index
-        })
-    }
-
     render() {
         const { 
             variant = 'default', 
@@ -80,7 +72,6 @@ export default class CartItem extends Component<Props> {
                 <Attributes
                     attributes={product.attributes}
                     selectedAttributes={selectedAttributes}
-                    onSelect={this.selectAttribute}
                     variant={variant}
                 />
             </CartItemSection>
