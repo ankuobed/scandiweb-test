@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import { Divider, ICartItem, StateContext } from '../../_shared'
 import CartItem from '../components/CartItem'
+import { CartPageTitle } from '../components/styledComponents'
 
 export default class Cart extends Component {
   static contextType = StateContext
@@ -10,7 +11,7 @@ export default class Cart extends Component {
 
     return (
       <div>
-        <h1 style={{ margin: '60px 0'}}>CART</h1>
+        <CartPageTitle>CART</CartPageTitle>
         {
           cartItems.map((cartItem: ICartItem) => 
             <>

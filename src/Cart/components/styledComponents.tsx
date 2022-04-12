@@ -9,6 +9,10 @@ export const CartIcon = styled(props => <img src={cart} alt="Cart" {...props} />
     width: 23
 })
 
+export const CartPageTitle = styled.h1({
+    margin: '60px 0'
+})
+
 export const CartBadge = styled.div(({ theme }) => ({
     background: theme.SECONDARY,
     width: 10,

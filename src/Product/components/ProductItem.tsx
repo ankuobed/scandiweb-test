@@ -1,6 +1,5 @@
 import { Component } from 'react'
 import { 
-    Flex, 
     formatPrice, 
     getPrice, 
     Product, 
@@ -8,6 +7,7 @@ import {
 } from '../../_shared'
 import { 
     AddToCartButtonRounded, 
+    AddToCartButtonWrapper, 
     BottomSection, 
     ProductItemImage, 
     ProductItemWrapper, 
@@ -45,12 +45,12 @@ export default class ProductItem extends Component<Props> {
                 />
             </Link>
             
-            <Flex justify="flex-end" style={{ width: '100%' }}>
+            <AddToCartButtonWrapper justify="flex-end">
                 {
                     this.product.inStock && 
                     <AddToCartButtonRounded onClick={this.addToCart} />
                 }
-            </Flex>
+            </AddToCartButtonWrapper>
 
             <BottomSection to={`/product/${this.product.id}`}>
                 <ProductName>{this.product.name}</ProductName>

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import cartImage from '../../assets/images/cart-white.svg'
+import { Flex } from "../../_shared"
 
 
 export const ProductsWrapper = styled.div({
@@ -138,4 +139,8 @@ export const ProductListWrapper = styled.div({
 
 export const CategoryName = styled.p({
     fontSize: 42
+})
+
+export const AddToCartButtonWrapper = styled(Flex)({
+    width: '100%'
 })
