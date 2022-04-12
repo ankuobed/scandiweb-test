@@ -8,7 +8,7 @@ import {
   Product, 
   StateContext 
 } from '../../_shared';
-import Description from '../components/Description';
+import parseHtmlString from 'html-react-parser'
 import { 
   AddToCartButton, 
   Label, 
@@ -18,7 +18,8 @@ import {
   MainImage, 
   SubImages, 
   SubImage, 
-  ProductDetailsContent
+  ProductDetailsContent,
+  Description
 } from '../components/styledComponents';
 import { getProduct } from '../graphqlQueries';
 
@@ -123,7 +124,9 @@ export default class ProductDetails extends Component<{}, State> {
                 ADD TO CART
               </AddToCartButton>
 
-              <Description html={this.state?.product?.description} />
+              <Description>
+                {parseHtmlString(this.state?.product?.description)}
+              </Description>
            </ProductDetailsContent>
           </Flex>
         }
