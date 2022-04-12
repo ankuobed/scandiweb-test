@@ -58,21 +58,36 @@ export const Overlay = styled.div<{
 	overflowY: 'auto',
 }))
 
-export const AttributeItem = styled.button<{ selected?: boolean; sm: boolean; }>(({ theme, selected, sm }) => ({
+export const AttributeItem = styled.button<{ selected?: boolean; sm: boolean; clickable: boolean; }>(
+({ 
+	theme, 
+	selected, 
+	sm,
+	clickable
+}) => ({
     backgroundColor: selected ? sm ? '#00000022' : theme.SECONDARY : theme.BACKGROUND,
     border: `1.5px solid ${theme.SECONDARY}`,
     color: selected ? sm ? undefined : theme.BACKGROUND : undefined,
     minWidth: sm ? 24 : 60,
     height: sm ? 24 : 42,
+    cursor: clickable ? 'pointer' : undefined,
     marginRight: 12,
 	fontSize: sm ? 14 : 16,
 }))
 
-export const AttributeColor = styled.button<{ selected?: boolean; color: string; sm: boolean }>(({ theme, selected, color, sm }) => ({
+export const AttributeColor = styled.button<{ selected?: boolean; color: string; sm: boolean; clickable: boolean; }>(
+({ 
+	theme, 
+	selected, 
+	color, 
+	sm,
+	clickable
+}) => ({
     backgroundColor: color,
     border: selected ? '2.5px solid #5e5e5e' : `1.5px solid ${theme.SECONDARY}`,
     minWidth: sm ? 30 : 60,
     height: sm ? 24: 42,
+    cursor: clickable ? 'pointer' : undefined,
     marginRight: 12,
 	fontSize: sm ? 14 : 16,
 	marginTop: sm ? 6 : undefined

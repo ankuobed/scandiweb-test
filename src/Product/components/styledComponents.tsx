@@ -133,8 +133,10 @@ export const ProductDetailsContent = styled.div({
 })
 
 export const ProductListWrapper = styled.div({
-    marginTop: 70, 
+    marginTop: 40, 
     marginBottom: 100,
+    display: 'flex',
+    flexDirection: 'column'
 })
 
 export const CategoryName = styled.p({

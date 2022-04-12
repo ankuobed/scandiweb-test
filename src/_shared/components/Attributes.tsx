@@ -1,11 +1,12 @@
 import { Component } from 'react'
-import { ICartItem, Product } from '../types'
+import { Attribute, ICartItem, Product } from '../types'
 import { isNotEmpty } from '../utils';
 import { AttributeColor, AttributeItem, Flex, Label } from './styledComponents';
 
 interface Props {
     attributes: Product['attributes'];
     selectedAttributes: ICartItem['selectedAttributes'];
+    onSelect?: (attribute: Attribute, index: number) => void;
     variant?: 'default' | 'small';
     labels?: boolean;
 }
@@ -15,6 +16,7 @@ export class Attributes extends Component<Props> {
         const { 
             attributes, 
             selectedAttributes, 
+            onSelect, 
             variant = 'default', 
             labels = false
         } = this.props
@@ -37,12 +39,16 @@ export class Attributes extends Component<Props> {
                             sm={variant === 'small'}
                             color={attrItem.value} 
                             selected={attrItem.id === selectedAttributes[index].id}
+                            onClick={() => onSelect?.(attrItem, index)}
+                            clickable={!!onSelect} 
                         />) :
                         attr?.items.map(attrItem => 
                         <AttributeItem 
                             key={attrItem.id}
                             sm={variant === 'small'}
                             selected={attrItem.id === selectedAttributes[index].id}
+                            onClick={() => onSelect?.(attrItem, index)}
+                            clickable={!!onSelect}
                         >
                             {attrItem.value}
                         </AttributeItem>)
