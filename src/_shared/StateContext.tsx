@@ -1,12 +1,12 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
 import { Component, createContext } from 'react'
-import { Currency, ICartItem, Product } from './types';
+import { Currency, ICartItem, Product } from './types'
 import { 
-    addToCartItems, 
-    getFromLocalStorage, 
-    isReallyEqual, 
-    reduceCartItemQty, 
-    saveToLocalStorage, 
+    addToCartItems,
+    getFromLocalStorage,
+    isReallyEqual,
+    reduceCartItemQty,
+    saveToLocalStorage,
 } from './utils';
 
 interface State {
@@ -23,8 +23,14 @@ interface IStateContext {
 }
 
 const client = new ApolloClient({
-    uri: 'http://localhost:4000',
-    cache: new InMemoryCache()
+    cache: new InMemoryCache({
+        typePolicies: {
+            AttributeSet: {
+                keyFields: ["items"]
+            }
+        }
+    }),
+    uri: 'http://localhost:4000/',
 });
 
 const initialState = {

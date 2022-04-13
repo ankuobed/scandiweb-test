@@ -23,7 +23,7 @@ export default class ProductsList extends Component<Props, State> {
   componentDidMount() {
     (async () => {
       const result = await getCategory(this.client, this.props.categoryName)
-      this.setState({ ...result })
+      this.setState({ category: result.category })
     })();
   }
 
@@ -31,7 +31,7 @@ export default class ProductsList extends Component<Props, State> {
     (async () => {
       if(prevProps.categoryName !== this.props.categoryName) {
         const result = await getCategory(this.client, this.props.categoryName)
-        this.setState({ ...result })
+        this.setState({ category: result.category })
       }
     })();
   }

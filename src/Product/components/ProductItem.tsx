@@ -21,9 +21,9 @@ interface Props {
 }
 
 export default class ProductItem extends Component<Props> {
-    product = this.props.product
-    
     static contextType = StateContext
+    
+    product = this.props.product
 
     addToCart = () => {
         this.context.addToCart(

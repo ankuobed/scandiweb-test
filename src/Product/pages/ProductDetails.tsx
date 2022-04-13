@@ -45,7 +45,7 @@ export default class ProductDetails extends Component<{}, State> {
     (async () => {
       const result = await getProduct(this.client, this.productId);
       this.setState({ 
-        ...result, 
+        product: result.product, 
         selectedAttributes: result.product.attributes.map(attr => attr.items[0]),
         currentImage: result.product.gallery[0]
       })

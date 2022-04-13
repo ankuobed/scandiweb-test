@@ -3,9 +3,12 @@ import { Category, Product } from '../_shared';
 
 export const getCategory = async (client: ApolloClient<NormalizedCacheObject>, name: string) => {
     const { data } = await client.query<{ category: Category }>({
+      variables: {
+        name
+      },
       query: gql`
-        query GetCategory {
-          category(input: { title: "${name}" }) {
+        query GetCategory($name: String!) {
+          category(input: { title: $name }) {
             name,
             products {
               id,
@@ -42,21 +45,25 @@ export const getCategory = async (client: ApolloClient<NormalizedCacheObject>, n
 export const getCategoryNames = async (client: ApolloClient<NormalizedCacheObject>) => {
   const { data } = await client.query<{ categories: { name: string }[] }>({
     query: gql`
-      query GetCategoryNames {
+    query GetCategoryNames {
         categories { 
           name
         }
       }
     `
   })
+  
   return { categoryNames: data.categories.map(({ name }) => name)  }
 }
 
 export const getProduct = async (client: ApolloClient<NormalizedCacheObject>, id: string) => {
   const { data } = await client.query<{ product: Product }>({
+    variables: {
+      id
+    },
     query: gql`
-      query GetProduct {
-        product(id: "${id}") {
+    query GetProduct($id: String!) {
+        product(id: $id) {
           id,
           name,
           gallery,
@@ -85,5 +92,5 @@ export const getProduct = async (client: ApolloClient<NormalizedCacheObject>, id
     `
   })
 
-  return { ...data }
+  return { product: data.product }
 }
