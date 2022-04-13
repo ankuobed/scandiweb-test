@@ -57,6 +57,7 @@ export default class Header extends Component<Props, State> {
                   to={route}
                   active={this.state.currentPage === route}
                   onClick={() => this.setState({ currentPage: route })}
+                  
                 >
                   {name.toUpperCase()}
                 </NavItem>)

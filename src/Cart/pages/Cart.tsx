@@ -13,15 +13,17 @@ export default class Cart extends Component {
       <div>
         <CartPageTitle>CART</CartPageTitle>
         {
-          cartItems.map((cartItem: ICartItem) => 
-            <>
-              <Divider height={25} />
-              <CartItem 
-                key={cartItem.product.id} 
-                cartItem={cartItem} 
-              />
-            </>
-          )
+          cartItems.map((cartItem: ICartItem) =>  {
+            const key = `${JSON.stringify(cartItem.selectedAttributes)}${cartItem.product.id}`
+            return (
+              <div key={key}>
+                <Divider height={25} />
+                <CartItem 
+                  cartItem={cartItem} 
+                />
+              </div>
+            )
+          })
         }
       </div>
     )

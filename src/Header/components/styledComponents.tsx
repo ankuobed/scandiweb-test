@@ -12,7 +12,8 @@ export const HeaderWrapper = styled(Flex)(({ theme }) => ({
     zIndex: 2,
 }))
 
-export const NavItem = styled(Link)<{ active: boolean }>(({ theme, active }) => ({
+export const NavItem = styled(({ active, ...rest}) => 
+<Link {...rest} />)<{ active: boolean }>(({ theme, active }) => ({
     color: active ? theme.PRIMARY : theme.SECONDARY,
     padding: 18,
     borderBottom: active ? `1px solid ${theme.PRIMARY}` : undefined,
