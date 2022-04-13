@@ -115,7 +115,22 @@ export const SubImage = styled.img({
     cursor: 'pointer',
 })
 
-export const ProductItemImage = styled.img({
+export const OutOfStockWatermark = styled.span({
+    color: '#8D8F9A',
+    fontSize: 24,
+    letterSpacing: 0.5,
+    position: 'relative',
+    top: 182,
+    left: 85,
+    marginTop: -26
+})
+
+export const ImageWrapper = styled.div({
+    display: 'flex',
+    flexDirection: 'column',
+})
+
+export const Image = styled.img({
     width: 330, 
     height: 335, 
     objectFit: 'contain'
@@ -127,6 +142,10 @@ export const BottomSection = styled(Link)(({ theme }) => ({
     textDecoration: 'none',
     color: theme.SECONDARY
 }))
+
+export const TopSection = styled(Link)({
+    textDecoration: 'none',
+})
 
 export const ProductDetailsContent = styled.div({
     width: '40%'

@@ -9,12 +9,12 @@ import {
     AddToCartButtonRounded, 
     AddToCartButtonWrapper, 
     BottomSection, 
-    ProductItemImage, 
     ProductItemWrapper, 
     ProductName, 
-    ProductPrice 
+    ProductPrice, 
+    TopSection
 } from './styledComponents';
-import { Link } from 'react-router-dom';
+import ProductItemImage from './ProductItemImage';
 
 interface Props {
     product: Product;
@@ -38,12 +38,13 @@ export default class ProductItem extends Component<Props> {
 
         return (
         <ProductItemWrapper>
-            <Link to={`/product/${this.product.id}`}>
+            <TopSection to={`/product/${this.product.id}`}>
                 <ProductItemImage
                     src={this.product.gallery[0]} 
-                    alt={this.product.name} 
+                    alt={this.product.name}
+                    inStock={this.product.inStock}
                 />
-            </Link>
+            </TopSection>
             
             <AddToCartButtonWrapper justify="flex-end">
                 {
