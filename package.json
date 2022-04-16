@@ -15,15 +15,10 @@
     "html-react-parser": "^1.4.10",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-<<<<<<< HEAD
     "react-redux": "^8.0.0",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
-=======
-    "react-router-dom": "^6.2.2",
-    "react-scripts": "5.0.0",
->>>>>>> a6265bbc024b4892e46b96f9358bd520e75704dc
     "styled-components": "^5.3.5",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
