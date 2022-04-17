@@ -1,13 +1,16 @@
 import { Component } from 'react'
-import { Divider, ICartItem, StateContext } from '../../_shared'
+import { connect } from 'react-redux'
+import { Divider, ICartItem } from '../../_shared'
 import CartItem from '../components/CartItem'
 import { CartPageTitle } from '../components/styledComponents'
 
-export default class Cart extends Component {
-  static contextType = StateContext
+interface Props {
+  cartItems: ICartItem[];
+}
 
+class Cart extends Component<Props> {
   render() {
-    const { cartItems } = this.context.state
+    const { cartItems } = this.props
 
     return (
       <div>
@@ -29,3 +32,11 @@ export default class Cart extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    cartItems: state.cart.cartItems
+  }
+}
+
+export default connect(mapStateToProps)(Cart)

@@ -7,7 +7,7 @@ import {
 import './App.css'
 import { ProductList, ProductDetails } from './Product'
 import { Cart } from './Cart'
-import { isNotEmpty, StateContext } from './_shared'
+import { isNotEmpty, ApolloContext } from './_shared'
 import Header from './Header';
 import { getCategoryNames } from './Product/graphqlQueries'
 
@@ -20,8 +20,8 @@ export default class Navigator extends Component<{}, State> {
     categoryNames: [] as string[],
   }
   
-  static contextType = StateContext
-  client = this.context.apolloClient
+  static contextType = ApolloContext
+  client = this.context
   
   componentDidMount() {
     (async () => {

@@ -1,18 +1,19 @@
 import { Component } from 'react'
-import { Flex, getTotal, ICartItem, isNotEmpty, Overlay, StateContext } from '../../_shared'
+import { connect } from 'react-redux';
+import { Currency, Flex, getTotal, ICartItem, isNotEmpty, Overlay } from '../../_shared'
 import CartItem from './CartItem';
 import { CartDialogWrapper, CheckoutButton, ViewBagButton } from './styledComponents';
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  cartItems: ICartItem[];
+  currency: Currency;
 }
 
-export default class CartDialogBox extends Component<Props> {
-  static contextType = StateContext;
-
+class CartDialogBox extends Component<Props> {
   render() {
-    const { cartItems, currency } = this.context.state
+    const { cartItems, currency } = this.props
 
     return (
       <Overlay
@@ -54,3 +55,12 @@ export default class CartDialogBox extends Component<Props> {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    currency: state.currency,
+    cartItems: state.cart.cartItems
+  }
+}
+
+export default connect(mapStateToProps)(CartDialogBox)

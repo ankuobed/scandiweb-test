@@ -1,12 +1,13 @@
 import { Component } from 'react'
 import { 
+    Attribute,
     Attributes, 
     Currency, 
     Flex, 
     formatPrice, 
     getPrice, 
     ICartItem, 
-    StateContext 
+    Product, 
 } from '../../_shared'
 import { 
     Brand, 
@@ -21,25 +22,26 @@ import plusIcon from '../../assets/images/plus.svg'
 import minusIcon from '../../assets/images/minus.svg'
 import CartItemImage from './CartItemImage'
 import { connect } from 'react-redux'
+import { ADD_TO_CART, REDUCE_CART_ITEM } from '../../_shared/redux'
 
 interface Props {
     cartItem: ICartItem;
     variant?: 'default' | 'small';
     currency: Currency;
+    addToCart: (product: Product, selectedAttributes: Attribute[]) => void;
+    reduceCartItem: (cartItem: ICartItem) => void;
 }
 
 class CartItem extends Component<Props> {
-    static contextType = StateContext;
-
     addToCart = () => {
-        this.context.addToCart(
+        this.props.addToCart(
             this.props.cartItem.product, 
             this.props.cartItem.selectedAttributes
         )
     }
 
     reduceCartItemQty = () => {
-        this.context.reduceCartItemQty(this.props.cartItem)
+        this.props.reduceCartItem(this.props.cartItem)
     }
 
     render() {
@@ -49,7 +51,7 @@ class CartItem extends Component<Props> {
                 quantity, 
                 product, 
                 selectedAttributes
-            } 
+            }
         } = this.props
 
         const price = getPrice(product.prices, this.props.currency)
@@ -115,5 +117,22 @@ const mapStateToProps = state => {
       currency: state.currency
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addToCart: (product, selectedAttributes) => 
+            dispatch({ 
+                type: ADD_TO_CART, 
+                payload: { product, selectedAttributes } 
+            }),
+        reduceCartItem: cartItem => {
+            dispatch({ 
+                type: REDUCE_CART_ITEM, 
+                payload: cartItem 
+            })
+
+        }
+    }
+}
   
-export default connect(mapStateToProps)(CartItem)
+export default connect(mapStateToProps, mapDispatchToProps)(CartItem)

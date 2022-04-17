@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import { 
+    Attribute,
     Currency,
     formatPrice, 
     getPrice, 
     Product, 
-    StateContext 
 } from '../../_shared'
 import { 
     AddToCartButtonRounded, 
@@ -17,19 +17,19 @@ import {
 } from './styledComponents';
 import ProductItemImage from './ProductItemImage';
 import { connect } from 'react-redux';
+import { ADD_TO_CART } from '../../_shared/redux';
 
 interface Props {
     product: Product;
     currency: Currency;
+    addToCart: (product: Product, selectedAttributes: Attribute[]) => void;
 }
 
-class ProductItem extends Component<Props> {
-    static contextType = StateContext
-    
+class ProductItem extends Component<Props> {    
     product = this.props.product
 
     addToCart = () => {
-        this.context.addToCart(
+        this.props.addToCart(
             this.product,
             this.product.attributes.map(attr => attr.items[0])
         )
@@ -70,5 +70,15 @@ const mapStateToProps = state => {
       currency: state.currency
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addToCart: (product, selectedAttributes) => 
+            dispatch({ 
+                type: ADD_TO_CART, 
+                payload: { product, selectedAttributes } 
+            }),
+    }
+}
   
-export default connect(mapStateToProps)(ProductItem)
+export default connect(mapStateToProps, mapDispatchToProps)(ProductItem)

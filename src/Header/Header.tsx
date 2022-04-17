@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Currency, Flex, isNotEmpty, StateContext } from '../_shared'
+import { Currency, Flex, ICartItem, isNotEmpty, ApolloContext } from '../_shared'
 import { HeaderWrapper, Logo, NavItem, RightNav } from './components/styledComponents'
 import { CartButton, CartDialog } from '../Cart'
 import { getCurrencies } from './graphqlQueries'
@@ -17,6 +17,7 @@ interface State {
 interface Props {
   categoryNames: string[];
   currency: Currency;
+  cartItems: ICartItem[];
 }
 
 class Header extends Component<Props, State> {
@@ -29,8 +30,8 @@ class Header extends Component<Props, State> {
     currentPage: this.initialRoute
   }
 
-  static contextType = StateContext
-  client = this.context.apolloClient
+  static contextType = ApolloContext
+  client = this.context
 
   componentDidMount() {
     (async () => {
@@ -42,7 +43,7 @@ class Header extends Component<Props, State> {
   render() {
     const currency = this.props.currency
 
-    const cartCount = this.context.state.cartItems.reduce(
+    const cartCount = this.props.cartItems.reduce(
       (acc, cartItem) => acc + cartItem.quantity, 0)
 
     return (
@@ -106,7 +107,8 @@ class Header extends Component<Props, State> {
 
 const mapStateToProps = state => {
   return {
-    currency: state.currency
+    currency: state.currency,
+    cartItems: state.cart.cartItems
   }
 }
 

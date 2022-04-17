@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { 
+  Attribute,
   Attributes, 
   Currency, 
   Flex, 
@@ -7,7 +8,7 @@ import {
   getPrice, 
   ICartItem, 
   Product, 
-  StateContext 
+  ApolloContext 
 } from '../../_shared';
 import parseHtmlString from 'html-react-parser'
 import { 
@@ -24,6 +25,7 @@ import {
 } from '../components/styledComponents';
 import { getProduct } from '../graphqlQueries';
 import { connect } from 'react-redux';
+import { ADD_TO_CART } from '../../_shared/redux';
 
 interface State {
   product: null | Product;
@@ -33,6 +35,7 @@ interface State {
 
 interface Props {
   currency: Currency;
+  addToCart: (product: Product, selectedAttributes: Attribute[]) => void;
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -42,9 +45,9 @@ class ProductDetails extends Component<Props, State> {
     currentImage: ''
   }
   
-  static contextType = StateContext;
+  static contextType = ApolloContext;
 
-  client = this.context.apolloClient
+  client = this.context
   productId = window.location.href.split('/').pop() as string
 
   componentDidMount() {
@@ -59,7 +62,7 @@ class ProductDetails extends Component<Props, State> {
   }
 
   addToCart = () => {
-    this.context.addToCart(this.state.product, this.state.selectedAttributes)
+    this.props.addToCart(this.state.product, this.state.selectedAttributes)
   }
 
   selectAttribute = (newAttribute, index) => {
@@ -147,4 +150,14 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(ProductDetails)
+const mapDispatchToProps = dispatch => {
+  return {
+      addToCart: (product, selectedAttributes) => 
+          dispatch({ 
+              type: ADD_TO_CART, 
+              payload: { product, selectedAttributes } 
+          }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails)

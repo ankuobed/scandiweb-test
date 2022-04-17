@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { capitalize, Category, StateContext } from '../../_shared'
+import { capitalize, Category, ApolloContext } from '../../_shared'
 import ProductItem from '../components/ProductItem';
 import { CategoryName, ProductListWrapper, ProductsWrapper } from '../components/styledComponents';
 import { getCategory } from '../graphqlQueries';
@@ -17,8 +17,8 @@ export default class ProductsList extends Component<Props, State> {
     category: {} as Category,
   }
   
-  static contextType = StateContext
-  client = this.context.apolloClient
+  static contextType = ApolloContext
+  client = this.context
 
   componentDidMount() {
     (async () => {

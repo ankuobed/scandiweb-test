@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux';
-import { Currency, formatCurrency, Overlay, StateContext } from '../../_shared'
+import { Currency, formatCurrency, Overlay, ApolloContext } from '../../_shared'
 import { SET_CURRENCY } from '../../_shared/redux';
 import { CurrencySwitcherItem, CurrencySwitcherWrapper } from './styledComponents'
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 class CurrencySwitcher extends Component<Props> {
-    static contextType = StateContext
+    static contextType = ApolloContext
 
     render() {
         return (
